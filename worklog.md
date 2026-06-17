@@ -242,3 +242,26 @@ Stage Summary:
 - Logo displayed in circular containers (rounded-full) to match its natural circular shape
 - Premium cohesive brand identity verified in both light and dark modes
 - All 5 views confirmed working with new palette
+
+---
+Task ID: 5
+Agent: Main (Orchestrator)
+Task: Replace logo with user's exact uploaded file
+
+Work Log:
+- User uploaded exact logo file to /home/z/my-project/upload/pasted_image_1781727921126.png (PNG 727x732, RGBA, 322KB)
+- Verified with VLM: circular logo with gold/bronze "IMPULSA REAL ESTATE" text, house + mountains + arrows icons, white circle background, dark blue gradient exterior
+- Copied exact uploaded file directly to public/images/logo-impulsa.png (preserving original quality and alpha channel)
+- Created matching favicon at public/images/logo-favicon.png (64x64 RGBA PNG) via ffmpeg
+- Agent Browser verification:
+  - Logo loads in header (48px rendered, naturalWidth confirmed) ✅
+  - VLM confirms: logo circular displays correctly, sharp, with house/mountains/arrows in gold/black visible ✅
+  - Footer logo: correct and coherent with header ✅
+  - Dark mode: logo visible and sharp on midnight navy background ✅
+  - Favicon path confirmed: /images/logo-favicon.png ✅
+  - No console errors ✅
+
+Stage Summary:
+- User's exact brand logo (from direct upload) now used across: header (desktop + mobile), footer, favicon
+- Original quality preserved (PNG RGBA with alpha channel)
+- Navy + gold palette from previous task remains cohesive with the exact logo
