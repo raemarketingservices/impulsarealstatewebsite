@@ -1,0 +1,173 @@
+'use client'
+
+import * as React from 'react'
+import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { Play, TrendingUp, Shield, Award } from 'lucide-react'
+import { PropertySearch } from './property-search'
+import { useAppStore } from '@/lib/store'
+import { Button } from '@/components/ui/button'
+
+const HERO_IMG = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80'
+
+const STATS = [
+  { value: '500+', label: 'Propiedades vendidas', icon: TrendingUp },
+  { value: '15 años', label: 'En el mercado', icon: Award },
+  { value: '$250M+', label: 'En transacciones', icon: Shield },
+]
+
+export function Hero() {
+  const { setView } = useAppStore()
+  const [videoOpen, setVideoOpen] = React.useState(false)
+
+  return (
+    <section className="relative min-h-[100vh] flex items-center pt-28 pb-16 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 -z-10">
+        <Image
+          src={HERO_IMG}
+          alt="Propiedad de lujo en República Dominicana"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-transparent" />
+      </div>
+
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0 grid-pattern opacity-30 -z-10" />
+
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid lg:grid-cols-12 gap-8 items-center">
+          {/* Left: Text */}
+          <div className="lg:col-span-7 space-y-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/30 backdrop-blur-sm"
+            >
+              <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
+              <span className="text-xs font-semibold tracking-wide text-gold uppercase">
+                #1 Inmobiliaria Premium en República Dominicana
+              </span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight"
+            >
+              Invierte en
+              <span className="block text-gradient-gold">bienes raíces</span>
+              con inteligencia.
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+              className="text-base sm:text-lg text-muted-foreground max-w-xl leading-relaxed"
+            >
+              La plataforma corporativa que combina propiedades premium, asesoría financiera
+              experta y herramientas inteligentes para impulsar tu patrimonio inmobiliario en el Caribe.
+            </motion.p>
+
+            {/* CTA buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.35 }}
+              className="flex flex-wrap items-center gap-3"
+            >
+              <Button
+                onClick={() => setView('dashboard')}
+                size="lg"
+                className="bg-gradient-gold text-gold-foreground hover:opacity-90 shadow-gold h-12 px-7"
+              >
+                <TrendingUp className="h-5 w-5 mr-2" />
+                Explorar Dashboard
+              </Button>
+              <Button
+                onClick={() => setVideoOpen(true)}
+                variant="outline"
+                size="lg"
+                className="h-12 px-7 glass border-border/50"
+              >
+                <Play className="h-5 w-5 mr-2 text-gold" />
+                Ver video corporativo
+              </Button>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
+              className="grid grid-cols-3 gap-4 pt-6 max-w-lg"
+            >
+              {STATS.map((stat) => (
+                <div key={stat.label} className="text-left">
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <stat.icon className="h-4 w-4 text-gold" />
+                    <span className="font-display text-2xl sm:text-3xl font-bold text-foreground">{stat.value}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground leading-tight">{stat.label}</p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Right: Search */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="lg:col-span-5"
+          >
+            <div className="space-y-3">
+              <div>
+                <h2 className="font-display text-xl font-bold mb-1">Encuentra tu próxima propiedad</h2>
+                <p className="text-sm text-muted-foreground">Filtros avanzados · Resultados en tiempo real</p>
+              </div>
+              <PropertySearch />
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Video Modal */}
+      {videoOpen && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setVideoOpen(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="relative w-full max-w-4xl aspect-video rounded-2xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="absolute inset-0 bg-gradient-emerald flex items-center justify-center">
+              <div className="text-center text-primary-foreground p-8">
+                <Play className="h-16 w-16 mx-auto mb-4 text-gold" fill="currentColor" />
+                <h3 className="font-display text-2xl font-bold mb-2">IMPULSA Real Estate</h3>
+                <p className="text-primary-foreground/80">Video corporativo — Próximamente</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setVideoOpen(false)}
+              className="absolute top-4 right-4 h-10 w-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors"
+              aria-label="Cerrar video"
+            >
+              ✕
+            </button>
+          </motion.div>
+        </div>
+      )}
+    </section>
+  )
+}

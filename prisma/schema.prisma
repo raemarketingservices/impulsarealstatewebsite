@@ -1,0 +1,138 @@
+// IMPULSA Real Estate — Prisma schema
+// Premium real estate platform data model
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  phone        String?
+  role         String   @default("CLIENT") // CLIENT | AGENT | ADMIN
+  avatarUrl    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  goals        Goal[]
+  properties   Property[] @relation("OwnedProperties")
+  inquiries    Inquiry[]
+}
+
+model Property {
+  id           String   @id @default(cuid())
+  title        String
+  description  String
+  type         String   // HOUSE | APARTMENT | VILLA | LAND | COMMERCIAL
+  status       String   @default("FOR_SALE") // FOR_SALE | SOLD | RENTED | RESERVED
+  operation    String   @default("SALE") // SALE | RENT
+  price        Float
+  currency     String   @default("USD")
+  bedrooms     Int      @default(0)
+  bathrooms    Int      @default(0)
+  area         Float    // sqm
+  parking      Int      @default(0)
+  location     String
+  city         String
+  zone         String
+  address      String?
+  lat          Float?
+  lng          Float?
+  images       String   // JSON array of URLs
+  features     String   // JSON array of feature strings
+  featured     Boolean  @default(false)
+  videoUrl     String?
+  published    Boolean  @default(true)
+  views        Int      @default(0)
+
+  agentId      String?
+  agent        Agent?   @relation(fields: [agentId], references: [id])
+  ownerId      String?
+  owner        User?    @relation("OwnedProperties", fields: [ownerId], references: [id])
+  inquiries    Inquiry[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Agent {
+  id           String   @id @default(cuid())
+  name         String
+  title        String
+  bio          String
+  photoUrl     String
+  phone        String
+  email        String
+  whatsapp     String
+  instagram    String?
+  tiktok       String?
+  facebook     String?
+  specialties  String   // JSON array
+  rating       Float    @default(5.0)
+  salesCount   Int      @default(0)
+  order        Int      @default(0)
+  active       Boolean  @default(true)
+
+  properties   Property[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Testimonial {
+  id           String   @id @default(cuid())
+  clientName   String
+  clientRole   String
+  clientPhoto  String?
+  message      String
+  rating       Int      @default(5)
+  property     String?
+  verified     Boolean  @default(true)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+}
+
+model Goal {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  title        String
+  type         String   // SAVINGS | INVESTMENT | PROPERTY_PURCHASE
+  targetAmount Float
+  currentAmount Float   @default(0)
+  targetDate   DateTime
+  status       String   @default("ACTIVE") // ACTIVE | COMPLETED | PAUSED
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Inquiry {
+  id           String   @id @default(cuid())
+  propertyId   String?
+  property     Property? @relation(fields: [propertyId], references: [id])
+  userId       String?
+  user         User?     @relation(fields: [userId], references: [id])
+  name         String
+  email        String
+  phone        String?
+  message      String
+  status       String   @default("NEW") // NEW | CONTACTED | CLOSED
+  createdAt    DateTime @default(now())
+}
+
+model SocialPost {
+  id           String   @id @default(cuid())
+  platform     String   // INSTAGRAM | TIKTOK | FACEBOOK
+  caption      String
+  imageUrl     String
+  postUrl      String?
+  likes        Int      @default(0)
+  comments     Int      @default(0)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+}
