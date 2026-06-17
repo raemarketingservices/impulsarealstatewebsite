@@ -36,7 +36,7 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-5">
-              <div className="relative h-12 w-12 rounded-xl overflow-hidden ring-2 ring-gold/30">
+              <div className="relative h-14 w-14 rounded-full overflow-hidden ring-2 ring-gold/40">
                 <Image src="/images/logo-impulsa.png" alt="IMPULSA Real Estate" fill className="object-cover" sizes="48px" />
               </div>
               <div>

@@ -84,7 +84,7 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/images/logo-impulsa.png",
+    icon: "/images/logo-favicon.png",
     apple: "/images/logo-impulsa.png",
   },
   category: "real estate",

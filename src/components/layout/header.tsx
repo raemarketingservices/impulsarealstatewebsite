@@ -55,13 +55,13 @@ export function Header() {
             className="flex items-center gap-3 group"
             aria-label="IMPULSA Real Estate - Inicio"
           >
-            <div className="relative h-11 w-11 rounded-xl overflow-hidden ring-2 ring-gold/30 group-hover:ring-gold/60 transition-all">
+            <div className="relative h-12 w-12 rounded-full overflow-hidden ring-2 ring-gold/40 group-hover:ring-gold/70 transition-all shadow-sm">
               <Image
                 src="/images/logo-impulsa.png"
                 alt="IMPULSA Real Estate"
                 fill
                 className="object-cover"
-                sizes="44px"
+                sizes="48px"
                 priority
               />
             </div>
@@ -155,7 +155,7 @@ export function Header() {
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between p-6 border-b">
                     <div className="flex items-center gap-3">
-                      <div className="relative h-10 w-10 rounded-lg overflow-hidden ring-2 ring-gold/30">
+                      <div className="relative h-10 w-10 rounded-full overflow-hidden ring-2 ring-gold/40">
                         <Image src="/images/logo-impulsa.png" alt="IMPULSA" fill className="object-cover" sizes="40px" />
                       </div>
                       <div>
