@@ -52,7 +52,7 @@ export function Header() {
         'fixed top-0 inset-x-0 z-50 transition-all duration-500',
         scrolled
           ? 'glass shadow-luxe border-b border-border/40 py-2.5'
-          : 'bg-transparent py-4'
+          : 'bg-gradient-to-b from-black/40 to-transparent py-4'
       )}
     >
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -74,7 +74,10 @@ export function Header() {
               />
             </div>
             <div className="hidden sm:flex flex-col leading-none text-left">
-              <span className="font-display text-lg font-bold tracking-tight text-foreground">
+              <span className={cn(
+                'font-display text-lg font-bold tracking-tight transition-colors',
+                scrolled ? 'text-foreground' : 'text-white drop-shadow-md'
+              )}>
                 IMPULSA
               </span>
               <span className="text-[10px] font-semibold tracking-[0.25em] text-gold uppercase">
@@ -90,17 +93,22 @@ export function Header() {
                 key={item.key}
                 onClick={() => navTo(item.key)}
                 className={cn(
-                  'relative px-4 py-2 text-sm font-medium rounded-lg transition-colors',
+                  'relative px-4 py-2 text-sm font-semibold rounded-lg transition-colors',
                   view === item.key
-                    ? 'text-primary'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? scrolled ? 'text-primary' : 'text-gold drop-shadow'
+                    : scrolled
+                      ? 'text-muted-foreground hover:text-foreground'
+                      : 'text-white/85 hover:text-white drop-shadow hover:drop-shadow-md'
                 )}
               >
                 {item.label}
                 {view === item.key && (
                   <motion.div
                     layoutId="nav-active"
-                    className="absolute inset-0 bg-primary/8 rounded-lg -z-10"
+                    className={cn(
+                      'absolute inset-0 rounded-lg -z-10',
+                      scrolled ? 'bg-primary/10' : 'bg-white/15'
+                    )}
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -112,7 +120,10 @@ export function Header() {
           <div className="flex items-center gap-2">
             <a
               href={`tel:+1${phone.replace(/\D/g, '')}`}
-              className="hidden xl:flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors mr-1"
+              className={cn(
+                'hidden xl:flex items-center gap-2 text-sm font-medium transition-colors mr-1',
+                scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/85 hover:text-white drop-shadow'
+              )}
             >
               <Phone className="h-4 w-4" />
               {phone}
@@ -123,12 +134,15 @@ export function Header() {
               size="icon"
               onClick={() => mounted && setTheme(theme === 'dark' ? 'light' : 'dark')}
               aria-label="Cambiar tema"
-              className="rounded-full"
+              className={cn(
+                'rounded-full transition-colors',
+                scrolled ? 'hover:bg-muted' : 'text-white hover:bg-white/15'
+              )}
             >
               {mounted && theme === 'dark' ? (
                 <Sun className="h-5 w-5" />
               ) : (
-                <Moon className="h-5 w-5" />
+                <Moon className="h-5 w-5 drop-shadow" />
               )}
             </Button>
 
@@ -154,8 +168,8 @@ export function Header() {
             {/* Mobile menu */}
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="lg:hidden rounded-full" aria-label="Abrir menú">
-                  <Menu className="h-5 w-5" />
+                <Button variant="ghost" size="icon" className={cn('lg:hidden rounded-full transition-colors', !scrolled && 'text-white hover:bg-white/15')} aria-label="Abrir menú">
+                  <Menu className="h-5 w-5 drop-shadow" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-full sm:w-96 p-0">

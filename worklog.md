@@ -402,3 +402,27 @@ Stage Summary:
 - Property card specs section completely redesigned: 4-column grid with icon + label + value for Habitaciones, Baños, Área, Parqueos
 - All icons and labels now fully visible (no truncation) on both desktop and mobile
 - Added missing Parqueos spec with Car icon
+
+---
+Task ID: 10
+Agent: Main (Orchestrator)
+Task: Fix header menu visibility in light mode
+
+Work Log:
+- Analyzed header with VLM: problem was header transparent over dark hero gradient used text-foreground (dark) and text-muted-foreground (gray) which were invisible on the dark hero overlay
+- Redesigned Header with scroll-aware color system:
+  - NOT scrolled (over hero): bg-gradient-to-b from-black/40 to-transparent, white text with drop-shadow, gold accent for active, white/15 hover backgrounds
+  - Scrolled (glass): normal theme colors (text-foreground, text-muted-foreground, bg-primary/10 active)
+- Dynamic colors applied to: logo "IMPULSA" text, nav buttons (active/inactive), phone link, theme toggle button, mobile hamburger menu button
+- Nav active indicator: bg-white/15 when over hero, bg-primary/10 when scrolled
+- All text uses drop-shadow for extra legibility over image
+- Agent Browser verification:
+  - Light mode, top (over hero): VLM confirms nav text white/visible, logo visible, gold "Ingresar" button visible, moon icon visible, phone visible, professional ✅
+  - Light mode, scrolled (glass): VLM confirms text legible on glass background, good contrast ✅
+  - Mobile light mode: VLM confirms IMPULSA white/legible, hamburger visible white, gold Ingresar button visible, good contrast ✅
+  - No console errors ✅
+
+Stage Summary:
+- Header menu now fully visible in light mode: white text with drop-shadow over dark hero, transitions to theme colors when scrolled
+- All elements (logo, nav, phone, theme toggle, hamburger, Ingresar button) have proper contrast in both states
+- Works correctly on desktop and mobile
