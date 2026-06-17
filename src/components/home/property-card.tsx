@@ -3,7 +3,7 @@
 import * as React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { BedDouble, Bath, Maximize, MapPin, Heart, ArrowRight, Star, SearchX } from 'lucide-react'
+import { BedDouble, Bath, Maximize, MapPin, Heart, ArrowRight, Star, SearchX, Car } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -138,20 +138,28 @@ export function PropertyCard({ property, index = 0 }: { property: Property; inde
             </div>
           )}
 
-          {/* Specs */}
-          <div className="flex items-center gap-4 pt-3 border-t border-border/40 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1.5" title="Habitaciones">
-              <BedDouble className="h-4 w-4 text-gold" />
-              {property.bedrooms}
-            </span>
-            <span className="flex items-center gap-1.5" title="Baños">
-              <Bath className="h-4 w-4 text-gold" />
-              {property.bathrooms}
-            </span>
-            <span className="flex items-center gap-1.5" title="Área">
-              <Maximize className="h-4 w-4 text-gold" />
-              {property.area}m²
-            </span>
+          {/* Specs — grid with icon + label + value, fully visible */}
+          <div className="grid grid-cols-4 gap-2 pt-3 border-t border-border/40">
+            <div className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg bg-muted/40 text-center">
+              <BedDouble className="h-4 w-4 sm:h-5 sm:w-5 text-gold" />
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-wide text-muted-foreground leading-none font-medium">Hab.</span>
+              <span className="text-sm font-bold leading-none">{property.bedrooms}</span>
+            </div>
+            <div className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg bg-muted/40 text-center">
+              <Bath className="h-4 w-4 sm:h-5 sm:w-5 text-gold" />
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-wide text-muted-foreground leading-none font-medium">Baños</span>
+              <span className="text-sm font-bold leading-none">{property.bathrooms}</span>
+            </div>
+            <div className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg bg-muted/40 text-center">
+              <Maximize className="h-4 w-4 sm:h-5 sm:w-5 text-gold" />
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-wide text-muted-foreground leading-none font-medium">Área</span>
+              <span className="text-sm font-bold leading-none">{property.area}m²</span>
+            </div>
+            <div className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg bg-muted/40 text-center">
+              <Car className="h-4 w-4 sm:h-5 sm:w-5 text-gold" />
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-wide text-muted-foreground leading-none font-medium">Parq.</span>
+              <span className="text-sm font-bold leading-none">{property.parking}</span>
+            </div>
           </div>
 
           <Button

@@ -376,3 +376,29 @@ Stage Summary:
 - Property detail modal completely redesigned: larger (max-w-7xl), 2-column on desktop, stacked on tablet/mobile, responsive thumbnails and touch targets
 - All phone/WhatsApp numbers updated to user's real numbers (9146733141 WhatsApp, 829-696-7140 phone)
 - Header and footer now load contact info dynamically from editable settings API
+
+---
+Task ID: 9
+Agent: Main (Orchestrator)
+Task: Make spec icons and labels visible in property card preview
+
+Work Log:
+- Analyzed user screenshots with VLM: specs section only showed icon + number (no text labels), labels were truncated/hidden
+- Redesigned specs section in PropertyCard (src/components/home/property-card.tsx):
+  - Changed from inline flex (icon + number only) to 4-column grid layout
+  - Each spec now shows: icon (gold, larger sm:h-5) + text label (Hab./Baños/Área/Parq.) + bold value
+  - Added 4th spec: Parqueos (was missing before) with Car icon
+  - Each spec in its own rounded-lg bg-muted/40 container for clear visual separation
+  - Responsive: text-[9px] on mobile, text-[10px] on sm+, icons h-4 on mobile h-5 on sm+
+  - Labels use uppercase tracking-wide for premium look
+- Added Car icon to lucide-react imports
+- Agent Browser verification:
+  - Desktop: VLM confirms all 4 specs visible with icons, labels, and numbers ✅
+  - Mobile (390px): VLM confirms 4 icons visible, labels legible, no overflow ✅
+  - Modal detail: specs also visible with labels ✅
+  - No console errors ✅
+
+Stage Summary:
+- Property card specs section completely redesigned: 4-column grid with icon + label + value for Habitaciones, Baños, Área, Parqueos
+- All icons and labels now fully visible (no truncation) on both desktop and mobile
+- Added missing Parqueos spec with Car icon
