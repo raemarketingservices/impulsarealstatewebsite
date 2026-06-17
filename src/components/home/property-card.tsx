@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from 'sonner'
+import { useAppStore } from '@/lib/store'
 
 export interface Property {
   id: string
@@ -48,6 +49,7 @@ const TYPE_LABELS: Record<string, string> = {
 
 export function PropertyCard({ property, index = 0 }: { property: Property; index?: number }) {
   const [liked, setLiked] = React.useState(false)
+  const openPropertyDetail = useAppStore((s) => s.openPropertyDetail)
   const images: string[] = React.useMemo(() => {
     try { return JSON.parse(property.images) } catch { return [] }
   }, [property.images])
@@ -56,6 +58,8 @@ export function PropertyCard({ property, index = 0 }: { property: Property; inde
   }, [property.features])
 
   const cover = images[0] || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80'
+
+  const openDetail = () => openPropertyDetail(property.id)
 
   return (
     <motion.div
@@ -66,7 +70,14 @@ export function PropertyCard({ property, index = 0 }: { property: Property; inde
     >
       <Card className="overflow-hidden border-border/50 hover:shadow-luxe hover:border-gold/30 transition-all duration-300 group h-full flex flex-col">
         {/* Image */}
-        <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+        <div
+          onClick={openDetail}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openDetail()}
+          className="relative aspect-[4/3] overflow-hidden bg-muted w-full block text-left cursor-pointer"
+          aria-label={`Ver detalles de ${property.title}`}
+        >
           <Image
             src={cover}
             alt={property.title}
@@ -146,7 +157,7 @@ export function PropertyCard({ property, index = 0 }: { property: Property; inde
           <Button
             variant="outline"
             className="w-full group-hover:bg-gradient-emerald group-hover:text-primary-foreground group-hover:border-transparent transition-all"
-            onClick={() => toast.success('Detalles enviados', { description: property.title })}
+            onClick={openDetail}
           >
             Ver detalles
             <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />

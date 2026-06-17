@@ -136,3 +136,13 @@ model SocialPost {
   order        Int      @default(0)
   createdAt    DateTime @default(now())
 }
+
+// Global editable settings (key-value store) for WhatsApp numbers, links, etc.
+model Setting {
+  key       String   @id
+  value     String
+  label     String
+  group     String   @default("general") // general | whatsapp | social | contact
+  updatedAt DateTime @updatedAt
+}
+

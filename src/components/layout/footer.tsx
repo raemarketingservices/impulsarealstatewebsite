@@ -158,6 +158,10 @@ export function Footer() {
             <a href="#" className="text-muted-foreground hover:text-gold transition-colors">Términos de Uso</a>
             <span className="text-muted-foreground/40">|</span>
             <a href="#" className="text-muted-foreground hover:text-gold transition-colors">Mapa del Sitio</a>
+            <span className="text-muted-foreground/40">|</span>
+            <button onClick={() => navTo('admin')} className="text-muted-foreground/60 hover:text-gold transition-colors text-[11px]">
+              Admin
+            </button>
           </div>
         </div>
       </div>

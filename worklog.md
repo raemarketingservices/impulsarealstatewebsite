@@ -308,3 +308,37 @@ Stage Summary:
 - Search is now FUNCTIONAL: fetches real properties from /api/properties with all filter combinations (zone, type, operation, price range, bedrooms, keyword)
 - Results displayed in responsive 3-column grid with loading skeletons and empty state
 - Shared PropertyCard component reused in both search results and featured carousel
+
+---
+Task ID: 7
+Agent: Main (Orchestrator)
+Task: Property detail modal with AI photos + WhatsApp buttons + editable admin panel + move search below hero
+
+Work Log:
+- Added Setting model to Prisma (key-value store) + seeded 11 settings (5 WhatsApp, 3 contact, 3 social)
+- Created /api/settings (GET/PUT) and /api/properties/[id] (GET with gallery + enriched description + whatsapp)
+- Updated /api/agents to override agent whatsapp with editable settings values
+- Generated 6 AI interior/exterior photos via image-generation skill (living, kitchen, bedroom, bathroom, pool, terrace) saved to public/images/properties/
+- Created PropertyDetailDialog component: image gallery with thumbnails + nav arrows, enriched 4-paragraph description, features checklist, investment insight box, agent card with WhatsApp (green #25D366) + Email buttons
+- Updated PropertyCard: image and "Ver detalles" button now open detail modal via useAppStore.openPropertyDetail()
+- Redesigned Hero: removed search from right column, made hero full-width centered banner (78vh)
+- Created PropertySearchSection: positioned below hero with -mt-24 overlap, more interactive (operation toggle auto-search, keyword clear button, price presets, active filter chips, result count badge)
+- Updated agents-view: WhatsApp buttons now green (#25D366) with "WhatsApp" label + pre-filled message
+- Created AdminView: login screen (password: impulsa2024), grouped settings editor (WhatsApp/Contact/Social/General), inline editing with change indicators, sticky save bar, add/delete settings, test WhatsApp links
+- Added 'admin' to ViewKey in store, integrated AdminView in page.tsx, added subtle "Admin" link in footer
+- Agent Browser verification:
+  - Search below hero: confirmed "Encuentra tu próxima propiedad" below hero banner ✅
+  - Ver detalles: opens modal with gallery (9 photos), enriched description (4 paragraphs), features, WhatsApp button ✅
+  - AI photos: 6 generated images load in gallery (living, kitchen, bedroom, bathroom, pool, terrace) ✅
+  - WhatsApp button in modal: green, opens wa.me link with pre-filled message ✅
+  - Agent WhatsApp buttons: green, visible on all 4 agent cards with pre-filled message ✅
+  - Admin panel: login works, settings editable, save persists to DB (verified whatsapp_general changed) ✅
+  - VLM confirms all elements look professional and cohesive ✅
+  - No console errors ✅
+
+Stage Summary:
+- Property detail modal complete: AI-generated gallery (6 interior/exterior photos) + varied 4-paragraph description + WhatsApp contact button
+- Each agent has prominent green WhatsApp button with pre-filled contextual message
+- All WhatsApp numbers/links editable from admin panel (/?v=admin, password: impulsa2024) with live DB persistence
+- Search redesigned and moved below hero banner (full-width, more interactive with auto-search, price presets, filter chips)
+- 6 AI property photos generated and integrated into detail gallery

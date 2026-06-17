@@ -9,10 +9,12 @@ import { AgentsView } from '@/components/agents/agents-view'
 import { GalleryView } from '@/components/social/gallery-view'
 import { DashboardView } from '@/components/dashboard/dashboard-view'
 import { FAQView } from '@/components/faq/faq-view'
+import { AdminView } from '@/components/admin/admin-view'
+import { PropertyDetailDialog } from '@/components/home/property-detail-dialog'
 import { useAppStore, type ViewKey } from '@/lib/store'
 import { Toaster as SonnerToaster } from 'sonner'
 
-const VALID_VIEWS: ViewKey[] = ['home', 'agents', 'gallery', 'dashboard', 'faq']
+const VALID_VIEWS: ViewKey[] = ['home', 'agents', 'gallery', 'dashboard', 'faq', 'admin']
 
 export default function Home() {
   const { view, setView } = useAppStore()
@@ -33,8 +35,12 @@ export default function Home() {
         {view === 'gallery' && <GalleryView />}
         {view === 'dashboard' && <DashboardView />}
         {view === 'faq' && <FAQView />}
+        {view === 'admin' && <AdminView />}
       </main>
       <Footer />
+
+      {/* Property detail modal (global) */}
+      <PropertyDetailDialog />
 
       {/* Auth dialog (reads its open state from the global store) */}
       <LoginDialog />

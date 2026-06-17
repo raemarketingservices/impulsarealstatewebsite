@@ -167,7 +167,7 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
           {/* Contact buttons */}
           <div className="grid grid-cols-3 gap-2 pt-1">
             <a
-              href={`https://wa.me/${agent.whatsapp}`}
+              href={`https://wa.me/${agent.whatsapp}?text=${encodeURIComponent(`Hola ${agent.name}, vi tu perfil en IMPULSA Real Estate y me gustaría más información sobre propiedades.`)}`}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Enviar WhatsApp a ${agent.name}`}
@@ -175,9 +175,10 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
               <Button
                 size="sm"
                 variant="outline"
-                className="w-full h-9 border-emerald-500/40 text-emerald-600 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 dark:text-emerald-400"
+                className="w-full h-9 bg-[#25D366]/10 border-[#25D366]/40 text-[#25D366] hover:bg-[#25D366] hover:text-white hover:border-[#25D366]"
               >
                 <MessageCircle className="h-3.5 w-3.5" />
+                <span className="ml-1 text-xs font-semibold hidden sm:inline">WhatsApp</span>
               </Button>
             </a>
             <a
