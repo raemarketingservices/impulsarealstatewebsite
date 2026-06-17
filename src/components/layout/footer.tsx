@@ -1,5 +1,6 @@
 'use client'
 
+import * as React from 'react'
 import Image from 'next/image'
 import { Instagram, Facebook, Mail, Phone, MapPin, Send, ArrowUpRight } from 'lucide-react'
 import { useAppStore, type ViewKey } from '@/lib/store'
@@ -20,6 +21,30 @@ export function Footer() {
   const { setView } = useAppStore()
 
   const navTo = (v: ViewKey) => setView(v)
+
+  // Load contact info from settings
+  const [contact, setContact] = React.useState({
+    phone: '829-696-7140',
+    email: 'info@impulsarealestate.com',
+    address: 'Av. Winston Churchill 1099, Piantini, Santo Domingo',
+    instagram: 'https://instagram.com',
+    tiktok: 'https://tiktok.com',
+    facebook: 'https://facebook.com',
+  })
+  React.useEffect(() => {
+    fetch('/api/settings').then((r) => r.json()).then((d) => {
+      if (d.map) {
+        setContact((prev) => ({
+          phone: d.map.phone_general?.value || prev.phone,
+          email: d.map.email_general?.value || prev.email,
+          address: d.map.address?.value || prev.address,
+          instagram: d.map.instagram?.value || prev.instagram,
+          tiktok: d.map.tiktok?.value || prev.tiktok,
+          facebook: d.map.facebook?.value || prev.facebook,
+        }))
+      }
+    }).catch(() => {})
+  }, [])
 
   const handleNewsletter = (e: React.FormEvent) => {
     e.preventDefault()
@@ -49,7 +74,7 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-3">
               <a
-                href="https://instagram.com"
+                href={contact.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -58,7 +83,7 @@ export function Footer() {
                 <Instagram className="h-4.5 w-4.5" />
               </a>
               <a
-                href="https://tiktok.com"
+                href={contact.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="TikTok"
@@ -67,7 +92,7 @@ export function Footer() {
                 <TikTokIcon className="h-4.5 w-4.5" />
               </a>
               <a
-                href="https://facebook.com"
+                href={contact.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
@@ -108,15 +133,15 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li className="flex items-start gap-3">
                 <MapPin className="h-4 w-4 mt-0.5 text-gold shrink-0" />
-                <span>Av. Winston Churchill 1099, Piantini<br />Santo Domingo, República Dominicana</span>
+                <span>{contact.address}<br />Santo Domingo, República Dominicana</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 text-gold shrink-0" />
-                <a href="tel:+18095550100" className="hover:text-gold transition-colors">+1 809-555-0100</a>
+                <a href={`tel:+1${contact.phone.replace(/\D/g, '')}`} className="hover:text-gold transition-colors">{contact.phone}</a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 text-gold shrink-0" />
-                <a href="mailto:info@impulsarealestate.com" className="hover:text-gold transition-colors">info@impulsarealestate.com</a>
+                <a href={`mailto:${contact.email}`} className="hover:text-gold transition-colors">{contact.email}</a>
               </li>
             </ul>
           </div>

@@ -33,6 +33,14 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Load phone from settings
+  const [phone, setPhone] = React.useState('829-696-7140')
+  React.useEffect(() => {
+    fetch('/api/settings').then((r) => r.json()).then((d) => {
+      if (d.map?.phone_general?.value) setPhone(d.map.phone_general.value)
+    }).catch(() => {})
+  }, [])
+
   const navTo = (v: ViewKey) => {
     setView(v)
     setMobileOpen(false)
@@ -103,11 +111,11 @@ export function Header() {
           {/* Right actions */}
           <div className="flex items-center gap-2">
             <a
-              href="tel:+18095550100"
+              href={`tel:+1${phone.replace(/\D/g, '')}`}
               className="hidden xl:flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors mr-1"
             >
               <Phone className="h-4 w-4" />
-              809-555-0100
+              {phone}
             </a>
 
             <Button
@@ -188,8 +196,8 @@ export function Header() {
                     >
                       {isAuthed ? `Hola, ${userName?.split(' ')[0] || 'Usuario'}` : 'Ingresar / Registrarse'}
                     </Button>
-                    <a href="tel:+18095550100" className="flex items-center justify-center gap-2 text-sm text-muted-foreground py-2">
-                      <Phone className="h-4 w-4" /> 809-555-0100
+                    <a href={`tel:+1${phone.replace(/\D/g, '')}`} className="flex items-center justify-center gap-2 text-sm text-muted-foreground py-2">
+                      <Phone className="h-4 w-4" /> {phone}
                     </a>
                   </div>
                 </div>

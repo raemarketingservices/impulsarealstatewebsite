@@ -342,3 +342,37 @@ Stage Summary:
 - All WhatsApp numbers/links editable from admin panel (/?v=admin, password: impulsa2024) with live DB persistence
 - Search redesigned and moved below hero banner (full-width, more interactive with auto-search, price presets, filter chips)
 - 6 AI property photos generated and integrated into detail gallery
+
+---
+Task ID: 8
+Agent: Main (Orchestrator)
+Task: Fix hero text contrast, redesign property modal (responsive 3 viewports), update WhatsApp/contact numbers
+
+Work Log:
+- Analyzed 3 user-uploaded screenshots with VLM: identified hero contrast issues, modal too small/dense, thumbnails too small on mobile
+- Updated phone/WhatsApp numbers via API: whatsapp_general + all 4 agents → 9146733141, phone_general → 829-696-7140
+- Hero contrast fix: darkened gradient overlay (from-black/80 via-black/55), added radial vignette, changed text to white with drop-shadow-2xl, gold text with drop-shadow-lg, subtitle white/85, stats white/70 — VLM confirms strong contrast now
+- Redesigned PropertyDetailDialog for responsive 3-viewport layout:
+  - DESKTOP (lg+): 2-column split — gallery fixed left (55%), info scrolls right. Price overlay on image, larger max-w-7xl, h-92vh
+  - TABLET (md): stacked vertical, gallery on top with 16:10 aspect, info below
+  - MOBILE: stacked, 4:3 aspect gallery, larger thumbnails (h-20 w-24), full-width WhatsApp button at top of content
+  - Larger thumbnails (h-20 w-24 sm:w-28), bigger touch targets (h-11 buttons), better spacing (p-5 sm:p-7 lg:p-8 xl:p-10)
+  - Prominent WhatsApp CTA box near top of content (not just at bottom)
+  - Agent card with WhatsApp + Email grid buttons
+- Updated Header: loads phone from /api/settings dynamically (was hardcoded 809-555-0100)
+- Updated Footer: loads phone, email, address, social links all from /api/settings dynamically; added explicit React import to fix "React is not defined" error
+- Agent Browser verification:
+  - Hero: VLM confirms strong contrast, white text + gold clearly visible on dark overlay ✅
+  - Modal DESKTOP: 2-column layout, gallery left + info right, professional ✅
+  - Modal TABLET (768px): adapted vertical, no overflow, WhatsApp visible ✅
+  - Modal MOBILE (390px): adapted vertical, no overflow, WhatsApp visible, larger thumbnails ✅
+  - Header phone: 829-696-7140 ✅
+  - Footer phone: 829-696-7140 ✅
+  - API whatsappNumber: 9146733141 ✅
+  - No console errors ✅
+
+Stage Summary:
+- Hero banner text now has strong contrast (white + gold on dark gradient overlay)
+- Property detail modal completely redesigned: larger (max-w-7xl), 2-column on desktop, stacked on tablet/mobile, responsive thumbnails and touch targets
+- All phone/WhatsApp numbers updated to user's real numbers (9146733141 WhatsApp, 829-696-7140 phone)
+- Header and footer now load contact info dynamically from editable settings API

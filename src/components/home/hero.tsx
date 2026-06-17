@@ -34,21 +34,24 @@ export function Hero() {
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/45 to-background" />
+          {/* Dark gradient overlay for strong text contrast */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-background" />
+          {/* Radial vignette behind centered text */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0.6)_0%,_transparent_70%)]" />
         </div>
 
         {/* Grid pattern overlay */}
-        <div className="absolute inset-0 grid-pattern opacity-25 -z-10" />
+        <div className="absolute inset-0 grid-pattern opacity-20 -z-10" />
 
         <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 w-full text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/30 backdrop-blur-sm mb-6"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/40 backdrop-blur-md mb-6"
           >
             <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-            <span className="text-xs font-semibold tracking-wide text-gold uppercase">
+            <span className="text-xs font-semibold tracking-wide text-gold uppercase drop-shadow">
               #1 Inmobiliaria Premium en República Dominicana
             </span>
           </motion.div>
@@ -57,10 +60,10 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight"
+            className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-white drop-shadow-2xl"
           >
             Invierte en
-            <span className="block text-gradient-gold">bienes raíces</span>
+            <span className="block text-gradient-gold drop-shadow-lg">bienes raíces</span>
             con inteligencia.
           </motion.h1>
 
@@ -68,7 +71,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mt-6"
+            className="text-base sm:text-lg text-white/85 max-w-2xl mx-auto leading-relaxed mt-6 drop-shadow-lg"
           >
             La plataforma corporativa que combina propiedades premium, asesoría financiera
             experta y herramientas inteligentes para impulsar tu patrimonio inmobiliario en el Caribe.
@@ -110,10 +113,10 @@ export function Hero() {
             {STATS.map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="flex items-center justify-center gap-1.5 mb-1">
-                  <stat.icon className="h-4 w-4 text-gold" />
-                  <span className="font-display text-2xl sm:text-3xl font-bold text-foreground">{stat.value}</span>
+                  <stat.icon className="h-4 w-4 text-gold drop-shadow" />
+                  <span className="font-display text-2xl sm:text-3xl font-bold text-white drop-shadow-lg">{stat.value}</span>
                 </div>
-                <p className="text-xs text-muted-foreground leading-tight">{stat.label}</p>
+                <p className="text-xs text-white/70 leading-tight drop-shadow">{stat.label}</p>
               </div>
             ))}
           </motion.div>
