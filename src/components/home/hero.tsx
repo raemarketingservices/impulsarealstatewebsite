@@ -3,10 +3,11 @@
 import * as React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Play, TrendingUp, Shield, Award } from 'lucide-react'
-import { PropertySearch } from './property-search'
+import { Play, TrendingUp, Shield, Award, ChevronDown } from 'lucide-react'
+import { PropertySearch, DEFAULT_FILTERS, type SearchFilters } from './property-search'
 import { useAppStore } from '@/lib/store'
 import { Button } from '@/components/ui/button'
+import { PropertyCard, PropertyCardSkeleton, EmptyState, type Property } from './property-card'
 
 const HERO_IMG = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80'
 
@@ -19,9 +20,47 @@ const STATS = [
 export function Hero() {
   const { setView } = useAppStore()
   const [videoOpen, setVideoOpen] = React.useState(false)
+  const [filters, setFilters] = React.useState<SearchFilters>(DEFAULT_FILTERS)
+  const [results, setResults] = React.useState<Property[] | null>(null)
+  const [loading, setLoading] = React.useState(false)
+  const [hasSearched, setHasSearched] = React.useState(false)
+  const resultsRef = React.useRef<HTMLDivElement>(null)
+
+  const buildQuery = (f: SearchFilters) => {
+    const params = new URLSearchParams()
+    if (f.q) params.set('q', f.q)
+    if (f.zone !== 'all') params.set('zone', f.zone)
+    if (f.type !== 'all') params.set('type', f.type)
+    if (f.operation) params.set('operation', f.operation)
+    params.set('minPrice', String(f.minPrice))
+    params.set('maxPrice', String(f.maxPrice))
+    if (f.bedrooms !== 'any') params.set('bedrooms', f.bedrooms)
+    params.set('limit', '24')
+    return params.toString()
+  }
+
+  const runSearch = React.useCallback(async (f: SearchFilters) => {
+    setLoading(true)
+    setHasSearched(true)
+    try {
+      const res = await fetch(`/api/properties?${buildQuery(f)}`)
+      const data = await res.json()
+      setResults(data.success ? data.data : [])
+    } catch {
+      setResults([])
+    } finally {
+      setLoading(false)
+      // scroll to results
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
+  }, [])
+
+  const handleSearch = () => runSearch(filters)
 
   return (
-    <section className="relative min-h-[100vh] flex items-center pt-28 pb-16 overflow-hidden">
+    <section className="relative min-h-[100vh] flex items-start pt-28 pb-16 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 -z-10">
         <Image
@@ -32,7 +71,7 @@ export function Hero() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/75 via-background/55 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-transparent" />
       </div>
 
@@ -40,9 +79,9 @@ export function Hero() {
       <div className="absolute inset-0 grid-pattern opacity-30 -z-10" />
 
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid lg:grid-cols-12 gap-8 items-center">
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
           {/* Left: Text */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-7 space-y-6 lg:pt-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -133,10 +172,70 @@ export function Hero() {
                 <h2 className="font-display text-xl font-bold mb-1">Encuentra tu próxima propiedad</h2>
                 <p className="text-sm text-muted-foreground">Filtros avanzados · Resultados en tiempo real</p>
               </div>
-              <PropertySearch />
+              <PropertySearch
+                filters={filters}
+                onFiltersChange={setFilters}
+                onSearch={handleSearch}
+                resultCount={results?.length}
+              />
             </div>
           </motion.div>
         </div>
+
+        {/* Search Results Section */}
+        {hasSearched && (
+          <motion.div
+            ref={resultsRef}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mt-16 pt-10 border-t border-border/40"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight">
+                  {loading ? 'Buscando...' : 'Resultados de tu búsqueda'}
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {loading
+                    ? 'Filtrando propiedades...'
+                    : `${results?.length || 0} ${results?.length === 1 ? 'propiedad encontrada' : 'propiedades encontradas'}`}
+                </p>
+              </div>
+            </div>
+
+            {loading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <PropertyCardSkeleton key={i} />
+                ))}
+              </div>
+            ) : results && results.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {results.map((p, i) => (
+                  <PropertyCard key={p.id} property={p} index={i} />
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1">
+                <EmptyState onReset={() => { setFilters(DEFAULT_FILTERS); runSearch(DEFAULT_FILTERS) }} />
+              </div>
+            )}
+          </motion.div>
+        )}
+
+        {/* Scroll hint when not searched */}
+        {!hasSearched && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+            className="flex flex-col items-center mt-12 text-muted-foreground"
+          >
+            <span className="text-xs uppercase tracking-[0.2em] mb-2">Propiedades destacadas</span>
+            <ChevronDown className="h-5 w-5 animate-bounce" />
+          </motion.div>
+        )}
       </div>
 
       {/* Video Modal */}

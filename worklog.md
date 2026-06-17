@@ -265,3 +265,46 @@ Stage Summary:
 - User's exact brand logo (from direct upload) now used across: header (desktop + mobile), footer, favicon
 - Original quality preserved (PNG RGBA with alpha channel)
 - Navy + gold palette from previous task remains cohesive with the exact logo
+
+---
+Task ID: 6
+Agent: Main (Orchestrator)
+Task: Fix property search visual design and make it functional with actual listing data
+
+Work Log:
+- Analyzed current search with VLM: identified problems (poor contrast, inconsistent spacing, button too large/isolated, doesn't filter listings)
+- Redesigned PropertySearch component (src/components/home/property-search.tsx):
+  - Added controlled props interface (filters, onFiltersChange, onSearch, resultCount) for parent state management
+  - Added keyword search input at top with search icon
+  - Operation toggle as rounded-full pill buttons
+  - Filters in consistent 2-col mobile / 4-col desktop grid with uniform gap
+  - Price range popover with min/max labels and divider
+  - Action row: "Limpiar filtros" button (only when active filters), result count badge, search button
+  - Better contrast: bg-card (solid) instead of bg-card/80 (translucent)
+- Created reusable PropertyCard component (src/components/home/property-card.tsx):
+  - Extracted from featured-properties, shared across search results and carousel
+  - Includes PropertyCardSkeleton and EmptyState components
+  - Format price helper, type labels, gradient overlay for legibility
+- Redesigned Hero (src/components/home/hero.tsx):
+  - PropertySearch now controlled by Hero state
+  - runSearch() fetches from /api/properties with all filters
+  - Results section appears below hero with grid of PropertyCards
+  - Loading skeletons during fetch
+  - Empty state when no results (with reset button)
+  - Auto-scroll to results after search
+  - "Propiedades destacadas" scroll hint when not searched
+- Refactored FeaturedProperties to use shared PropertyCard
+- Agent Browser verification:
+  - Search with no filters: API ?operation=SALE&minPrice=20000&maxPrice=5000000&limit=24 → all properties shown ✅
+  - Search with zone "Punta Cana/Este": API ?zone=Este&operation=SALE... → filtered results ✅
+  - Keyword search "villa": API ?q=villa&operation=SALE... → 2 properties found (Villa de Playa, Villa Mediterránea) ✅
+  - Result count badge shows "2 resultados" ✅
+  - Empty state "No se encontraron propiedades" with clear button ✅
+  - VLM confirms: cards show image/title/price/specs, professional design, good organization ✅
+  - No console errors ✅
+
+Stage Summary:
+- Property search completely redesigned: premium visual with solid card background, consistent grid, keyword input, clear filters button, result count badge
+- Search is now FUNCTIONAL: fetches real properties from /api/properties with all filter combinations (zone, type, operation, price range, bedrooms, keyword)
+- Results displayed in responsive 3-column grid with loading skeletons and empty state
+- Shared PropertyCard component reused in both search results and featured carousel
