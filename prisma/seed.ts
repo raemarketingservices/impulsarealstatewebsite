@@ -184,7 +184,7 @@ async function main() {
     },
     {
       title: 'Villa de Playa en Las Terrenas',
-      description: 'Paraíso tropical en la costa de Las Terrenas. Villa con arquitectura caribeña, frente a la playa, ideal para renta vacacional o residencia.',
+      description: 'Paraíso tropical en la costa de Las Terrenas. Villa con arquitectura tropical dominicana, frente a la playa, ideal para renta vacacional o residencia.',
       type: 'VILLA',
       price: 890000,
       bedrooms: 4,
@@ -201,7 +201,7 @@ async function main() {
     },
     {
       title: 'Penthouse con Terraza Panorámica',
-      description: 'Ático de dos niveles con terraza de 80m², baño de vapor y vista al mar Caribe. En edificio boutique de solo 8 unidades.',
+      description: 'Ático de dos niveles con terraza de 80m², baño de vapor y vista al mar. En edificio boutique de solo 8 unidades.',
       type: 'APARTMENT',
       price: 540000,
       bedrooms: 3,
@@ -306,7 +306,7 @@ async function main() {
     { platform: 'TIKTOK', caption: 'Tour completo de este penthouse en Piantini 🏙️ #RealEstateRD', imageUrl: IMG.penthouse, likes: 5621, comments: 312, order: 2 },
     { platform: 'INSTAGRAM', caption: 'El detalle hace la diferencia. Acabados de lujo en cada rincón ✨', imageUrl: IMG.int1, likes: 892, comments: 45, order: 3 },
     { platform: 'FACEBOOK', caption: '¡Felicitaciones a nuestros clientes por su nuevo hogar en Casa de Campo!', imageUrl: IMG.villa2, likes: 445, comments: 67, order: 4 },
-    { platform: 'INSTAGRAM', caption: 'Diseño contemporáneo que redefine el lujo caribeño 🌴', imageUrl: IMG.modern, likes: 1567, comments: 102, order: 5 },
+    { platform: 'INSTAGRAM', caption: 'Diseño contemporáneo que redefine el lujo dominicano 🌴', imageUrl: IMG.modern, likes: 1567, comments: 102, order: 5 },
     { platform: 'TIKTOK', caption: 'Antes y después: transformación total de esta villa 🏗️→🏡', imageUrl: IMG.beach, likes: 8900, comments: 543, order: 6 },
     { platform: 'INSTAGRAM', caption: 'La cocina de tus sueños existe y la tenemos 🍳✨', imageUrl: IMG.int3, likes: 1102, comments: 78, order: 7 },
     { platform: 'FACEBOOK', caption: 'Inversión inmobiliaria en RD: el momento es ahora 📈', imageUrl: IMG.condo, likes: 678, comments: 91, order: 8 },

@@ -2,11 +2,9 @@
 
 import * as React from 'react'
 import Image from 'next/image'
-import { Instagram, Facebook, Mail, Phone, MapPin, Send, ArrowUpRight } from 'lucide-react'
+import { Instagram, Facebook, Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react'
 import { useAppStore, type ViewKey } from '@/lib/store'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { toast } from 'sonner'
 
 // TikTok icon (not in lucide)
 function TikTokIcon({ className }: { className?: string }) {
@@ -26,7 +24,7 @@ export function Footer() {
   const [contact, setContact] = React.useState({
     phone: '829-696-7140',
     email: 'info@impulsarealestate.com',
-    address: 'Av. Winston Churchill 1099, Piantini, Santo Domingo',
+    address: 'Bella Terra Mall, 3er nivel, Av. Juan Pablo Duarte 4, Santiago de los Caballeros 51000',
     instagram: 'https://instagram.com',
     tiktok: 'https://tiktok.com',
     facebook: 'https://facebook.com',
@@ -46,18 +44,10 @@ export function Footer() {
     }).catch(() => {})
   }, [])
 
-  const handleNewsletter = (e: React.FormEvent) => {
-    e.preventDefault()
-    toast.success('¡Suscripción exitosa!', {
-      description: 'Recibirás nuestras mejores oportunidades inmobiliarias.',
-    })
-    ;(e.target as HTMLFormElement).reset()
-  }
-
   return (
     <footer className="mt-auto bg-gradient-to-b from-background to-muted/30 border-t border-border/60">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-5">
@@ -133,7 +123,7 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li className="flex items-start gap-3">
                 <MapPin className="h-4 w-4 mt-0.5 text-gold shrink-0" />
-                <span>{contact.address}<br />Santo Domingo, República Dominicana</span>
+                <span>{contact.address}</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 text-gold shrink-0" />
@@ -145,33 +135,12 @@ export function Footer() {
               </li>
             </ul>
           </div>
-
-          {/* Newsletter */}
-          <div>
-            <h3 className="font-display text-sm font-bold uppercase tracking-wider mb-4 text-foreground">Newsletter</h3>
-            <p className="text-sm text-muted-foreground mb-3">
-              Recibe oportunidades exclusivas y análisis de mercado.
-            </p>
-            <form onSubmit={handleNewsletter} className="space-y-2">
-              <Input
-                type="email"
-                placeholder="tu@email.com"
-                required
-                className="bg-background"
-                aria-label="Email para newsletter"
-              />
-              <Button type="submit" className="w-full bg-gradient-gold text-gold-foreground hover:opacity-90">
-                <Send className="h-4 w-4 mr-2" />
-                Suscribirme
-              </Button>
-            </form>
-          </div>
         </div>
 
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-border/60 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground text-center md:text-left">
-            © {new Date().getFullYear()} IMPULSA Real Estate. Todos los derechos reservados. RNC: 131-55555-9
+            © {new Date().getFullYear()} IMPULSA Real Estate. Todos los derechos reservados.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs">
             <button onClick={() => navTo('faq')} className="text-muted-foreground hover:text-gold transition-colors">

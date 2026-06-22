@@ -444,3 +444,45 @@ Stage Summary:
 - Repo live at: https://github.com/raemarketingservices/impulsarealstatewebsite
 - All source code, prisma schema, seeds, public assets, and config files uploaded
 - Database files and uploads excluded (gitignored)
+
+---
+Task ID: 12
+Agent: Main (Orchestrator)
+Task: Remove banner, fix dark mode text, replace Caribe, remove chatbot, WhatsApp to right, fix footer + testimonial
+
+Work Log:
+- Removed "¿Listo para impulsar tu patrimonio?" CTA banner from stats-band.tsx
+- Fixed dark mode: brightened muted-foreground from oklch(0.66) to oklch(0.82) for better text visibility
+- Replaced ALL "Caribe" mentions with "República Dominicana" or "toda República Dominicana":
+  - layout.tsx (SEO keywords)
+  - api/properties/[id]/route.ts (enriched description)
+  - hero.tsx (subtitle)
+  - video-section.tsx (values + heading)
+  - seed.ts (property descriptions, social posts)
+  - Database: 2 property descriptions + chatbot knowledge settings updated
+- Removed chatbot widget (already not present in current codebase)
+- Created floating WhatsApp button (right side, bottom-right) with green #25D366, pulse animation, tooltip
+- Added FloatingWhatsApp to page.tsx globally
+- Updated footer:
+  - Removed Newsletter section entirely (3 columns: brand, navigation, contact)
+  - Removed RNC from copyright
+  - Updated address to "Bella Terra Mall, 3er nivel, Av. Juan Pablo Duarte 4, Santiago de los Caballeros 51000"
+  - Removed "Santo Domingo, República Dominicana" second line
+- Fixed testimonial in DB: "Isabel y su equipo" → "los profesionales de IMPULSA Real Estate"
+- Updated seed.ts testimonial text to match
+- Agent Browser verification:
+  - Dark mode: texts clearly legible (white + gold on dark) ✅
+  - Footer: Bella Terra Mall Santiago address, no RNC, no Newsletter, 3 columns ✅
+  - WhatsApp button: visible on right side ✅
+  - Banner removed: "Listo para impulsar" not found ✅
+  - Testimonial: "Isabel y su equipo" removed ✅
+  - "Caribe": completely removed from entire page ✅
+- bun run lint: 0 errors
+
+Stage Summary:
+- Banner CTA removed from home page
+- Dark mode text contrast improved (muted-foreground brightened)
+- All "Caribe" references replaced with "República Dominicana" in code, seed, and database
+- Chatbot removed, WhatsApp floating button on right side
+- Footer: no Newsletter, no RNC, Santiago address
+- Testimonial: references IMPULSA Real Estate (not Isabel)

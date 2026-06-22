@@ -11,7 +11,7 @@ const VIDEO_POSTER = 'https://images.unsplash.com/photo-1613490493576-7fde63acd8
 
 const VALUES = [
   { icon: TrendingUp, title: 'Inversión Inteligente', desc: 'Análisis de mercado y proyecciones financieras para decisiones informadas.' },
-  { icon: Globe, title: 'Alcance Internacional', desc: 'Conectamos inversionistas globales con oportunidades premium del Caribe.' },
+  { icon: Globe, title: 'Alcance Internacional', desc: 'Conectamos inversionistas globales con oportunidades premium de República Dominicana.' },
   { icon: Users, title: 'Asesoría Experta', desc: 'Un equipo de más de 20 especialistas en bienes raíces y finanzas.' },
 ]
 
@@ -80,7 +80,7 @@ export function VideoSection() {
               transition={{ delay: 0.1 }}
               className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight"
             >
-              Impulsamos el futuro de los <span className="text-gradient-gold">bienes raíces</span> en el Caribe
+              Impulsamos el futuro de los <span className="text-gradient-gold">bienes raíces</span> en toda República Dominicana
             </motion.h2>
 
             <motion.div

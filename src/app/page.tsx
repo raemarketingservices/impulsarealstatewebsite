@@ -11,6 +11,7 @@ import { DashboardView } from '@/components/dashboard/dashboard-view'
 import { FAQView } from '@/components/faq/faq-view'
 import { AdminView } from '@/components/admin/admin-view'
 import { PropertyDetailDialog } from '@/components/home/property-detail-dialog'
+import { FloatingWhatsApp } from '@/components/floating/whatsapp-button'
 import { useAppStore, type ViewKey } from '@/lib/store'
 import { Toaster as SonnerToaster } from 'sonner'
 
@@ -41,6 +42,9 @@ export default function Home() {
 
       {/* Property detail modal (global) */}
       <PropertyDetailDialog />
+
+      {/* Floating WhatsApp button (bottom right) */}
+      <FloatingWhatsApp />
 
       {/* Auth dialog (reads its open state from the global store) */}
       <LoginDialog />

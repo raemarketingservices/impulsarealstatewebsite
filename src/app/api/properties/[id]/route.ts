@@ -42,7 +42,7 @@ function enrichDescription(p: {
   paragraphs.push(
     `${p.title} representa una oportunidad única en el mercado inmobiliario dominicano. ` +
     `Ubicada en ${p.location}, ${p.city}, ${subject} combina arquitectura contemporánea con acabados de primera calidad, ` +
-    `ofreciendo un estilo de vida sofisticado en uno de los sectores más codiciados del Caribe.`
+    `ofreciendo un estilo de vida sofisticado en uno de los sectores más codiciados de República Dominicana.`
   )
 
   // Spaces

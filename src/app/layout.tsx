@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     "casas de lujo República Dominicana",
     "apartamentos en venta",
     "asesores inmobiliarios",
-    "inversión inmobiliaria Caribe",
+    "inversión inmobiliaria República Dominicana",
   ],
   authors: [{ name: "IMPULSA Real Estate" }],
   creator: "IMPULSA Real Estate",

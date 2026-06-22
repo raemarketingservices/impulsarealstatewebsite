@@ -80,45 +80,6 @@ export function StatsBand() {
               </motion.div>
             ))}
           </div>
-
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-16 relative rounded-3xl overflow-hidden"
-          >
-            <div className="bg-gradient-emerald p-8 lg:p-14 text-center text-primary-foreground relative overflow-hidden">
-              <div className="absolute inset-0 grid-pattern opacity-10" />
-              <div className="relative space-y-4 max-w-2xl mx-auto">
-                <h3 className="font-display text-3xl lg:text-4xl font-bold">
-                  ¿Listo para impulsar tu patrimonio?
-                </h3>
-                <p className="text-primary-foreground/80 text-base lg:text-lg">
-                  Crea tu cuenta gratuita y accede a herramientas financieras exclusivas,
-                  proyecciones de inversión y seguimiento de metas.
-                </p>
-                <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-                  <Button
-                    onClick={() => setView('dashboard')}
-                    size="lg"
-                    className="bg-gradient-gold text-gold-foreground hover:opacity-90 shadow-gold"
-                  >
-                    Crear cuenta gratis
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
-                  <Button
-                    onClick={() => setView('agents')}
-                    size="lg"
-                    variant="outline"
-                    className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/20"
-                  >
-                    Hablar con un asesor
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </section>
     </>

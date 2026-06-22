@@ -74,7 +74,7 @@ export function Hero() {
             className="text-base sm:text-lg text-white/85 max-w-2xl mx-auto leading-relaxed mt-6 drop-shadow-lg"
           >
             La plataforma corporativa que combina propiedades premium, asesoría financiera
-            experta y herramientas inteligentes para impulsar tu patrimonio inmobiliario en el Caribe.
+            experta y herramientas inteligentes para impulsar tu patrimonio inmobiliario en toda República Dominicana.
           </motion.p>
 
           {/* CTA buttons */}
