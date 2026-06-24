@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { toast } from 'sonner'
+import { refreshSettings } from '@/hooks/use-settings'
 
 interface Setting {
   key: string
@@ -127,7 +128,9 @@ export function AdminView() {
       const data = await res.json()
       if (data.success) {
         setOriginal(settings)
-        toast.success('Configuración guardada', { description: `${updates.length} valores actualizados` })
+        // Force all pages to refresh settings in real-time
+        refreshSettings()
+        toast.success('Configuración guardada', { description: `${updates.length} valores actualizados · cambios aplicados en tiempo real` })
       } else {
         toast.error('Error al guardar')
       }

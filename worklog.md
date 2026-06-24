@@ -568,3 +568,30 @@ Stage Summary:
 - All stats (years in market, properties sold, ROI, etc.) editable
 - Content organized by page: hero, home_sections, agents_page, gallery_page, faq_page
 - Changes save to DB and reflect on site in real-time
+
+---
+Task ID: 17
+Agent: Main (Orchestrator)
+Task: Fix real-time content updates - changes not applying immediately
+
+Work Log:
+- Root cause: useSettings hook loaded settings once on mount with empty dependency array — no refresh mechanism when admin saved changes
+- Rewrote src/hooks/use-settings.ts with:
+  - Global cache (globalMap, globalVersion) shared across all hook instances
+  - refreshSettings() exported function that increments version and notifies all listeners
+  - Listeners set: all useSettings instances subscribe to version changes
+  - Polling: re-fetches every 30 seconds for cross-tab real-time updates
+  - Cache-busting: fetch URL includes timestamp to bypass browser cache
+- Updated admin-view.tsx handleSave: calls refreshSettings() immediately after successful save
+- Toast message updated: "cambios aplicados en tiempo real"
+- Agent Browser verification:
+  - Changed "15 años" → "10 años" in admin → saved → home page showed "10 años" immediately ✅
+  - Changed "500+" → "750+" in admin → saved → home page showed "750+" immediately ✅
+  - Toast confirms: "72 valores actualizados · cambios aplicados en tiempo real" ✅
+  - Old values completely removed from page ✅
+- bun run lint: 0 errors
+
+Stage Summary:
+- All content changes now apply IMMEDIATELY when admin saves
+- Three-layer refresh system: 1) instant refreshSettings() call, 2) global listener notification, 3) 30s polling
+- Works across tabs and when navigating back to home from admin
