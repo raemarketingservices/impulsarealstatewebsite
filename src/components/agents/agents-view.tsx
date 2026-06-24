@@ -16,6 +16,8 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useSettings } from '@/hooks/use-settings'
+import { convertImageUrl } from '@/lib/image-utils'
 
 // ---------- Types ----------
 interface AgentProperty {
@@ -95,6 +97,8 @@ function RatingStars({ rating }: { rating: number }) {
 // ---------- Agent Card ----------
 function AgentCard({ agent, index }: { agent: Agent; index: number }) {
   const [expanded, setExpanded] = React.useState(false)
+  const { get } = useSettings()
+  const photoStyle = get('agents_photo_style', 'circular') // 'circular' or 'rectangular'
   const specialties = React.useMemo(
     () => parseJsonArray(agent.specialties).slice(0, 4),
     [agent.specialties]
@@ -109,34 +113,64 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
       className="h-full"
     >
       <Card className="group overflow-hidden border-border/50 hover:shadow-luxe transition-all duration-300 h-full flex flex-col">
-        {/* Photo */}
-        <div className="relative aspect-[4/5] overflow-hidden bg-muted">
-          <img
-            src={agent.photoUrl}
-            alt={`Retrato de ${agent.name}`}
-            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-            onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(agent.name) + '&size=400&background=0f2438&color=c9a227' }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-card via-card/10 to-transparent" />
-          {/* Gold ring on hover */}
-          <div className="absolute inset-0 rounded-t-xl ring-2 ring-gold/0 group-hover:ring-gold/60 transition-all duration-300 pointer-events-none" />
-          {/* Rating chip */}
-          <div className="absolute top-3 left-3 glass px-2.5 py-1 rounded-full flex items-center gap-1.5">
-            <Star className="h-3 w-3 text-gold" fill="currentColor" />
-            <span className="text-xs font-bold text-foreground">
-              {agent.rating.toFixed(1)}
-            </span>
-          </div>
-          {/* Sales badge */}
-          <div className="absolute bottom-3 right-3 bg-gradient-emerald text-primary-foreground px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow-luxe">
-            <TrendingUp className="h-3 w-3" />
-            <span className="text-xs font-semibold">{agent.salesCount} ventas</span>
-          </div>
-        </div>
+        {photoStyle === 'circular' ? (
+          <>
+            {/* Circular photo layout */}
+            <div className="relative bg-gradient-emerald pt-12 pb-6 px-5 flex flex-col items-center">
+              {/* Rating chip */}
+              <div className="absolute top-3 left-3 glass px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                <Star className="h-3 w-3 text-gold" fill="currentColor" />
+                <span className="text-xs font-bold text-foreground">
+                  {agent.rating.toFixed(1)}
+                </span>
+              </div>
+              {/* Sales badge */}
+              <div className="absolute top-3 right-3 glass px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                <TrendingUp className="h-3 w-3 text-gold" />
+                <span className="text-xs font-semibold text-foreground">{agent.salesCount}</span>
+              </div>
+              {/* Circular photo */}
+              <div className="relative h-28 w-28 rounded-full overflow-hidden bg-muted ring-4 ring-gold/40 group-hover:ring-gold/70 transition-all duration-300 shadow-lg shrink-0">
+                <img
+                  src={convertImageUrl(agent.photoUrl)}
+                  alt={`Retrato de ${agent.name}`}
+                  className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                  onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(agent.name) + '&size=400&background=0f2438&color=c9a227' }}
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Rectangular photo layout */}
+            <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+              <img
+                src={convertImageUrl(agent.photoUrl)}
+                alt={`Retrato de ${agent.name}`}
+                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(agent.name) + '&size=400&background=0f2438&color=c9a227' }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-card via-card/10 to-transparent" />
+              <div className="absolute inset-0 rounded-t-xl ring-2 ring-gold/0 group-hover:ring-gold/60 transition-all duration-300 pointer-events-none" />
+              {/* Rating chip */}
+              <div className="absolute top-3 left-3 glass px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                <Star className="h-3 w-3 text-gold" fill="currentColor" />
+                <span className="text-xs font-bold text-foreground">
+                  {agent.rating.toFixed(1)}
+                </span>
+              </div>
+              {/* Sales badge */}
+              <div className="absolute bottom-3 right-3 bg-gradient-emerald text-primary-foreground px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow-luxe">
+                <TrendingUp className="h-3 w-3" />
+                <span className="text-xs font-semibold">{agent.salesCount} ventas</span>
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Body */}
         <div className="p-5 flex flex-col gap-3 flex-1">
-          <div>
+          <div className={photoStyle === 'circular' ? 'text-center' : ''}>
             <h3 className="font-display text-xl font-bold leading-tight">
               {agent.name}
             </h3>

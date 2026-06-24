@@ -595,3 +595,38 @@ Stage Summary:
 - All content changes now apply IMMEDIATELY when admin saves
 - Three-layer refresh system: 1) instant refreshSettings() call, 2) global listener notification, 3) 30s polling
 - Works across tabs and when navigating back to home from admin
+
+---
+Task ID: 18
+Agent: Main (Orchestrator)
+Task: Update agent photos with Google Drive links, circular style, reorder, similar bios
+
+Work Log:
+- Updated 5 agent photos with Google Drive links (auto-converted via convertImageUrl):
+  - Graisbel Lora Longo: drive.google.com/file/d/16XkjiqX3qr7NRANMaTPcrnQJfTJ46R4T
+  - Geovanny Reynoso: drive.google.com/file/d/1D3Ta5Zbz10MmRw6fTLkyo3QarY_aPCB6
+  - Richard Estrella: drive.google.com/file/d/1Qhm6SQF9_SEha5VByzbbZc6H6r7DV3DD
+  - Jarlynes Castillo: drive.google.com/file/d/1nw8V8AwycJiS1p2_gzRQjPgzR5O4DxId
+  - Emmanuel Badía Bretón: drive.google.com/file/d/1Hvayh85-2h4i4_-J_Qw_HvGTroCTaX_b
+- Reordered agents: Graisbel (1), Geovanny (2), Richard (3), Jarlynes (4), Emmanuel (5)
+- Made Graisbel and Geovanny bios similar (both "Líder y fundador/a" with same text)
+- Added agents_photo_style setting to DB (value: 'circular') — editable from admin
+- Updated AgentCard in agents-view.tsx:
+  - Uses useSettings hook to load photo style (circular or rectangular)
+  - Circular layout: photo in circle on gradient-emerald header band, centered name/title
+  - Rectangular layout: full-width photo with overlay (original style)
+  - All photos use convertImageUrl for Google Drive support
+  - onError fallback to ui-avatars with agent name
+- Added imports: useSettings, convertImageUrl to agents-view
+- Agent Browser verification:
+  - Photos visible in circles ✅
+  - Real photos loading from Google Drive ✅
+  - Graisbel first, Geovanny second ✅
+  - All 5 agents visible ✅
+- bun run lint: 0 errors
+
+Stage Summary:
+- Agent photos updated with Google Drive links, showing in circles
+- Order: Graisbel (1), Geovanny (2), Richard (3), Jarlynes (4), Emmanuel (5)
+- Graisbel and Geovanny have similar bios
+- Photo style (circular/rectangular) editable from admin panel via agents_photo_style setting
