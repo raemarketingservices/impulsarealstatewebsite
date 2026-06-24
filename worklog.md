@@ -486,3 +486,42 @@ Stage Summary:
 - Chatbot removed, WhatsApp floating button on right side
 - Footer: no Newsletter, no RNC, Santiago address
 - Testimonial: references IMPULSA Real Estate (not Isabel)
+
+---
+Task ID: 15
+Agent: Main (Orchestrator)
+Task: Set up agents with credentials, admin password, brands, and real-time editing
+
+Work Log:
+- Added password field to Agent schema (String @default("impulsa")) + email @unique
+- Ran db:push to update schema
+- Created 5 agents with login credentials (password: "impulsa" for all):
+  1. Geovanny Reynoso - Broker Owner | geovanny.reynoso@impulsarealestate.com
+  2. Richard Estrella - Agente Inmobiliario | richard.estrella@impulsarealestate.com
+  3. Jarlynes Castillo - Asesora Inmobiliaria | jarlynes.castillo@impulsarealestate.com
+  4. Emmanuel Badía Bretón - Agente Inmobiliario | emmanuel.badia@impulsarealestate.com
+  5. Graisbel Lora Longo - Broker Manager | graisbel.lora@impulsarealestate.com
+- Changed admin password from impulsa2024 to impulsa2026
+- Removed password hint from admin login preview ("Demo: usa impulsa2024" → "Acceso restringido solo para administradores autorizados")
+- Updated trust brands:
+  - Title: "Inmobiliarias que confían en nosotros"
+  - 9 new brands: RE/MAX Dominicana, Plusval, TuCasaRD, Century 21, Mr. Home, Apartamentos RD, Loft Home RD, Blue Caribbean Properties, Engel & Völkers
+  - Removed old bank names (BHD León, Scotiabank, etc.)
+- Updated stats-band.tsx to load brands dynamically from /api/settings (real-time)
+- Added brands group to admin GROUP_CONFIG with Award icon
+- Added TEXTAREA_KEYS for long-text settings (trust_brands_list renders as textarea)
+- Fixed agents-view: replaced next/image <Image> with native <img> to support any URL
+- Agent Browser verification:
+  - 5 agents visible with correct names ✅
+  - Brands: RE/MAX and Engel found, BHD removed ✅
+  - Admin login with impulsa2026 works ✅
+  - Old password hint removed ✅
+  - Brands section editable in admin (3 settings) ✅
+  - Footer contact correct (Bella Terra, 829-696-7140, info@) ✅
+- bun run lint: 0 errors
+
+Stage Summary:
+- 5 agents with credentials (email + password "impulsa") for agent panel login
+- Admin password: impulsa2026 (hint removed from preview)
+- Trust brands: 9 inmobiliarias, editable from admin, real-time updates
+- Agent photos use native <img> tags supporting any URL including Google Drive

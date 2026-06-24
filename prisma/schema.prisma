@@ -68,7 +68,8 @@ model Agent {
   bio          String
   photoUrl     String
   phone        String
-  email        String
+  email        String   @unique
+  password     String   @default("impulsa")
   whatsapp     String
   instagram    String?
   tiktok       String?

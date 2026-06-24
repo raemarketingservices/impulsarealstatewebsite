@@ -1,7 +1,6 @@
 'use client'
 
 import * as React from 'react'
-import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Star,
@@ -112,12 +111,11 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
       <Card className="group overflow-hidden border-border/50 hover:shadow-luxe transition-all duration-300 h-full flex flex-col">
         {/* Photo */}
         <div className="relative aspect-[4/5] overflow-hidden bg-muted">
-          <Image
+          <img
             src={agent.photoUrl}
             alt={`Retrato de ${agent.name}`}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(agent.name) + '&size=400&background=0f2438&color=c9a227' }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-card via-card/10 to-transparent" />
           {/* Gold ring on hover */}
@@ -260,12 +258,11 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
                           className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted transition-colors group/p"
                         >
                           <div className="relative h-14 w-14 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                            <Image
+                            <img
                               src={imgs[0] || ''}
                               alt={p.title}
-                              fill
-                              sizes="56px"
-                              className="object-cover group-hover/p:scale-110 transition-transform"
+                              className="object-cover w-full h-full group-hover/p:scale-110 transition-transform"
+                              onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(p.title) + '&size=100&background=0f2438&color=c9a227' }}
                             />
                           </div>
                           <div className="flex-1 min-w-0">

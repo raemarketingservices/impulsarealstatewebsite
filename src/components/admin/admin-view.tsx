@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { motion } from 'framer-motion'
-import { Save, RotateCcw, MessageCircle, Phone, Mail, MapPin, Instagram, Facebook, Check, Lock, ArrowLeft, Plus, Trash2, ExternalLink } from 'lucide-react'
+import { Save, RotateCcw, MessageCircle, Phone, Mail, MapPin, Instagram, Facebook, Check, Lock, ArrowLeft, Plus, Trash2, ExternalLink, Award } from 'lucide-react'
 import { useAppStore } from '@/lib/store'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -32,10 +32,22 @@ const GROUP_CONFIG: Record<string, { title: string; icon: React.ElementType; des
   whatsapp: { title: 'Números de WhatsApp', icon: MessageCircle, description: 'Edita los números de WhatsApp de la empresa y cada asesor. Formato: código de país + número (ej: 18095550100).' },
   contact: { title: 'Información de Contacto', icon: Phone, description: 'Teléfono, email y dirección general de la empresa.' },
   social: { title: 'Redes Sociales', icon: Instagram, description: 'Enlaces a perfiles de redes sociales.' },
+  brands: { title: 'Inmobiliarias que Confían', icon: Award, description: 'Edita la lista de inmobiliarias que se muestran en la cinta giratoria de la página principal. Los cambios se actualizan en tiempo real.' },
   general: { title: 'Configuración General', icon: SettingsIcon, description: 'Otras configuraciones del sistema.' },
 }
 
-const GROUP_ORDER = ['whatsapp', 'contact', 'social', 'general']
+const GROUP_ORDER = ['whatsapp', 'contact', 'social', 'brands', 'general']
+
+// Keys whose value is long text → render as textarea
+const TEXTAREA_KEYS = new Set([
+  'chatbot_knowledge',
+  'chatbot_system_prompt',
+  'chatbot_welcome',
+  'trust_brands_list',
+  'footer_copyright',
+  'footer_description',
+  'address',
+])
 
 export function AdminView() {
   const { setView } = useAppStore()
@@ -68,11 +80,11 @@ export function AdminView() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    if (adminPass === 'impulsa2024' || adminPass === 'admin') {
+    if (adminPass === 'impulsa2026') {
       setAuthed(true)
       toast.success('Acceso concedido')
     } else {
-      toast.error('Contraseña incorrecta', { description: 'Pista: impulsa2024' })
+      toast.error('Contraseña incorrecta')
     }
   }
 
@@ -180,7 +192,7 @@ export function AdminView() {
                 </Button>
               </form>
               <p className="text-xs text-center text-muted-foreground mt-4">
-                Demo: usa <code className="px-1 py-0.5 rounded bg-muted">impulsa2024</code>
+                Acceso restringido solo para administradores autorizados.
               </p>
             </Card>
           </motion.div>
@@ -281,8 +293,9 @@ export function AdminView() {
                         const changed = original.find((o) => o.key === s.key)?.value !== s.value
                         const isWhatsapp = s.key.startsWith('whatsapp')
                         const isLink = s.value.startsWith('http')
+                        const isLongText = TEXTAREA_KEYS.has(s.key)
                         return (
-                          <div key={s.key} className="grid grid-cols-1 sm:grid-cols-[1fr_2fr_auto] gap-2 items-end">
+                          <div key={s.key} className={isLongText ? "grid grid-cols-1 gap-2 items-start" : "grid grid-cols-1 sm:grid-cols-[1fr_2fr_auto] gap-2 items-end"}>
                             <div>
                               <Label className="text-xs text-muted-foreground mb-1 block truncate">{s.key}</Label>
                               <Input
@@ -293,12 +306,21 @@ export function AdminView() {
                               />
                             </div>
                             <div className="relative">
-                              <Input
-                                value={s.value}
-                                onChange={(e) => updateValue(s.key, e.target.value)}
-                                className={`h-10 text-sm font-mono ${changed ? 'border-gold ring-1 ring-gold/30' : ''}`}
-                                placeholder={isWhatsapp ? '18095550100' : 'Valor'}
-                              />
+                              {isLongText ? (
+                                <textarea
+                                  value={s.value}
+                                  onChange={(e) => updateValue(s.key, e.target.value)}
+                                  className={`w-full min-h-[100px] p-3 text-sm rounded-md border bg-background font-mono resize-y ${changed ? 'border-gold ring-1 ring-gold/30' : 'border-border/60'}`}
+                                  placeholder="Contenido del setting..."
+                                />
+                              ) : (
+                                <Input
+                                  value={s.value}
+                                  onChange={(e) => updateValue(s.key, e.target.value)}
+                                  className={`h-10 text-sm font-mono ${changed ? 'border-gold ring-1 ring-gold/30' : ''}`}
+                                  placeholder={isWhatsapp ? '18095550100' : 'Valor'}
+                                />
+                              )}
                               {changed && (
                                 <Badge className="absolute -top-2 -right-2 h-5 px-1.5 text-[9px] bg-gold text-gold-foreground">
                                   <Check className="h-2.5 w-2.5" />

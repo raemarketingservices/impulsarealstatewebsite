@@ -18,22 +18,51 @@ const STATS = [
 export function StatsBand() {
   const { setView } = useAppStore()
 
+  // Load brands from settings (editable in admin)
+  const [brandConfig, setBrandConfig] = React.useState({
+    enabled: true,
+    title: 'Inmobiliarias que confían en nosotros',
+    brands: ['RE/MAX Dominicana', 'Plusval', 'TuCasaRD', 'Century 21', 'Mr. Home', 'Apartamentos RD', 'Loft Home RD', 'Blue Caribbean Properties', 'Engel & Völkers'],
+  })
+
+  React.useEffect(() => {
+    fetch('/api/settings')
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.map) {
+          setBrandConfig((prev) => ({
+            enabled: d.map.trust_brands_enabled?.value !== 'false',
+            title: d.map.trust_brands_title?.value || prev.title,
+            brands: d.map.trust_brands_list?.value ? (() => { try { return JSON.parse(d.map.trust_brands_list.value) } catch { return prev.brands } })() : prev.brands,
+          }))
+        }
+      })
+      .catch(() => {})
+  }, [])
+
   return (
     <>
-      {/* Marquee logos / trust bar */}
-      <section className="border-y border-border/40 bg-muted/20 py-6 overflow-hidden">
-        <div className="flex items-center gap-16 animate-marquee whitespace-nowrap">
-          {[...Array(2)].map((_, dup) => (
-            <div key={dup} className="flex items-center gap-16 shrink-0">
-              {['Banco Popular', 'BHD León', 'Scotiabank', 'APAP', 'Banreservas', 'Asociación La Nacional', 'Cámara RD Bienes Raíces'].map((bank) => (
-                <span key={bank} className="font-display text-lg font-semibold text-muted-foreground/60 tracking-wide">
-                  {bank}
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* Marquee logos / trust bar (hideable via settings) */}
+      {brandConfig.enabled && (
+        <section className="border-y border-border/40 bg-muted/20 py-6 overflow-hidden">
+          <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-3">
+            <p className="text-center text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-gold uppercase">
+              {brandConfig.title}
+            </p>
+          </div>
+          <div className="flex items-center gap-12 sm:gap-16 animate-marquee whitespace-nowrap">
+            {[...Array(2)].map((_, dup) => (
+              <div key={dup} className="flex items-center gap-12 sm:gap-16 shrink-0">
+                {brandConfig.brands.map((brand, i) => (
+                  <span key={`${brand}-${i}`} className="font-display text-lg sm:text-xl font-semibold text-muted-foreground/60 tracking-wide">
+                    {brand}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Stats grid */}
       <section className="py-20 lg:py-28">
