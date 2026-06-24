@@ -5,9 +5,11 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   X, BedDouble, Bath, Maximize, MapPin, Star, Car, ChevronLeft, ChevronRight,
-  CheckCircle2, MessageCircle, Phone, Mail, Share2, Heart, TrendingUp, Home as HomeIcon, DollarSign
+  CheckCircle2, MessageCircle, Phone, Mail, Share2, Heart, TrendingUp, Home as HomeIcon, DollarSign,
+  Instagram, Facebook
 } from 'lucide-react'
 import { useAppStore } from '@/lib/store'
+import { convertImageUrl } from '@/lib/image-utils'
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -43,6 +45,10 @@ interface PropertyDetail {
     photoUrl: string
     phone: string
     email: string
+    whatsapp: string
+    instagram: string | null
+    tiktok: string | null
+    facebook: string | null
   } | null
 }
 
@@ -355,12 +361,11 @@ export function PropertyDetailDialog() {
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Asesor asignado</p>
                     <div className="flex items-center gap-4 mb-4">
                       <div className="relative h-14 w-14 sm:h-16 sm:w-16 rounded-full overflow-hidden ring-2 ring-gold/30 shrink-0">
-                        <Image
-                          src={property.agent.photoUrl}
+                        <img
+                          src={convertImageUrl(property.agent.photoUrl)}
                           alt={property.agent.name}
-                          fill
-                          sizes="64px"
-                          className="object-cover"
+                          className="object-cover w-full h-full"
+                          onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(property.agent.name) + '&size=100&background=0f2438&color=c9a227' }}
                         />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -370,6 +375,24 @@ export function PropertyDetailDialog() {
                           <span className="flex items-center gap-1">
                             <Phone className="h-3 w-3" /> {property.agent.phone}
                           </span>
+                        </div>
+                        {/* Social media icons */}
+                        <div className="flex items-center gap-2 mt-2">
+                          {property.agent.instagram && (
+                            <a href={`https://instagram.com/${property.agent.instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" className="h-7 w-7 rounded-full bg-muted hover:bg-gradient-gold hover:text-gold-foreground flex items-center justify-center transition-all" aria-label="Instagram">
+                              <Instagram className="h-3.5 w-3.5" />
+                            </a>
+                          )}
+                          {property.agent.tiktok && (
+                            <a href={property.agent.tiktok.startsWith('http') ? property.agent.tiktok : `https://tiktok.com/@${property.agent.tiktok.replace('@', '')}`} target="_blank" rel="noopener noreferrer" className="h-7 w-7 rounded-full bg-muted hover:bg-gradient-gold hover:text-gold-foreground flex items-center justify-center transition-all" aria-label="TikTok">
+                              <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.1z"/></svg>
+                            </a>
+                          )}
+                          {property.agent.facebook && (
+                            <a href={property.agent.facebook.startsWith('http') ? property.agent.facebook : `https://facebook.com/${property.agent.facebook}`} target="_blank" rel="noopener noreferrer" className="h-7 w-7 rounded-full bg-muted hover:bg-gradient-gold hover:text-gold-foreground flex items-center justify-center transition-all" aria-label="Facebook">
+                              <Facebook className="h-3.5 w-3.5" />
+                            </a>
+                          )}
                         </div>
                       </div>
                     </div>

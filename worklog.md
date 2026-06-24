@@ -630,3 +630,37 @@ Stage Summary:
 - Order: Graisbel (1), Geovanny (2), Richard (3), Jarlynes (4), Emmanuel (5)
 - Graisbel and Geovanny have similar bios
 - Photo style (circular/rectangular) editable from admin panel via agents_photo_style setting
+
+---
+Task ID: 19
+Agent: Main (Orchestrator)
+Task: Distribute properties among agents + show agent info in property preview
+
+Work Log:
+- Distributed 8 properties round-robin among 5 agents:
+  - Graisbel Lora Longo: 2 properties
+  - Geovanny Reynoso: 2 properties
+  - Richard Estrella: 2 properties
+  - Jarlynes Castillo: 1 property
+  - Emmanuel Badía Bretón: 1 property
+- Added social media to all 5 agents (Instagram, TikTok, Facebook handles)
+- Updated PropertyDetailDialog:
+  - Added social media fields to PropertyDetail interface (whatsapp, instagram, tiktok, facebook)
+  - Replaced next/image <Image> with native <img> using convertImageUrl for Google Drive support
+  - Added social media icons row in agent card (Instagram, TikTok, Facebook)
+  - Each icon links to the agent's social profile
+  - All photos use convertImageUrl for Google Drive link conversion
+  - onError fallback to ui-avatars with agent name
+- Agent Browser verification:
+  - Property preview modal shows agent card with: photo, name, title, phone ✅
+  - Social media icons visible (Instagram, TikTok, Facebook) ✅
+  - WhatsApp button (green) with pre-filled message ✅
+  - Email button ✅
+  - VLM confirms all elements visible ✅
+- bun run lint: 0 errors
+
+Stage Summary:
+- Properties distributed: each agent has 1-2 properties
+- Property preview shows assigned agent with full contact info: WhatsApp, email, Instagram, TikTok, Facebook
+- Agent photos load from Google Drive in the preview modal
+- Social media icons appear next to agent name in the property detail modal
