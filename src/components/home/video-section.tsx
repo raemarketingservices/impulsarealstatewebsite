@@ -1,23 +1,25 @@
 'use client'
 
 import * as React from 'react'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Play, Quote, TrendingUp, Globe, Users } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAppStore } from '@/lib/store'
-
-const VIDEO_POSTER = 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1600&q=80'
-
-const VALUES = [
-  { icon: TrendingUp, title: 'Inversión Inteligente', desc: 'Análisis de mercado y proyecciones financieras para decisiones informadas.' },
-  { icon: Globe, title: 'Alcance Internacional', desc: 'Conectamos inversionistas globales con oportunidades premium de República Dominicana.' },
-  { icon: Users, title: 'Asesoría Experta', desc: 'Un equipo de más de 20 especialistas en bienes raíces y finanzas.' },
-]
+import { useSettings } from '@/hooks/use-settings'
+import { convertImageUrl } from '@/lib/image-utils'
 
 export function VideoSection() {
   const { setView } = useAppStore()
+  const { get } = useSettings()
   const [playing, setPlaying] = React.useState(false)
+
+  const posterImg = convertImageUrl(get('video_poster_image', 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1600&q=80'))
+
+  const VALUES = [
+    { icon: TrendingUp, title: get('video_value1_title', 'Inversión Inteligente'), desc: get('video_value1_desc', 'Análisis de mercado y proyecciones financieras para decisiones informadas.') },
+    { icon: Globe, title: get('video_value2_title', 'Alcance Nacional'), desc: get('video_value2_desc', 'Conectamos inversionistas con oportunidades premium en toda República Dominicana.') },
+    { icon: Users, title: get('video_value3_title', 'Asesoría Experta'), desc: get('video_value3_desc', 'Un equipo de más de 20 especialistas en bienes raíces y finanzas.') },
+  ]
 
   return (
     <section className="py-20 lg:py-28 relative overflow-hidden bg-gradient-to-b from-muted/30 to-background">
@@ -31,12 +33,11 @@ export function VideoSection() {
             transition={{ duration: 0.6 }}
             className="relative aspect-video rounded-3xl overflow-hidden shadow-luxe group"
           >
-            <Image
-              src={VIDEO_POSTER}
+            <img
+              src={posterImg}
               alt="Video promocional IMPULSA Real Estate"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
+              className="object-cover w-full h-full"
+              onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1600&q=80' }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
@@ -56,8 +57,8 @@ export function VideoSection() {
 
             {/* Caption */}
             <div className="absolute bottom-0 left-0 right-0 p-6">
-              <p className="text-white/90 text-sm font-medium mb-1">IMPULSA Real Estate</p>
-              <h3 className="font-display text-2xl font-bold text-white">Conoce nuestra visión corporativa</h3>
+              <p className="text-white/90 text-sm font-medium mb-1">{get('video_caption_title', 'IMPULSA Real Estate')}</p>
+              <h3 className="font-display text-2xl font-bold text-white">{get('video_caption_subtitle', 'Conoce nuestra visión corporativa')}</h3>
             </div>
           </motion.div>
 
@@ -70,7 +71,7 @@ export function VideoSection() {
               className="inline-flex items-center gap-2 mb-2"
             >
               <span className="h-px w-8 bg-gold" />
-              <span className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">Quiénes Somos</span>
+              <span className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">{get('video_label', 'Quiénes Somos')}</span>
             </motion.div>
 
             <motion.h2
@@ -80,7 +81,7 @@ export function VideoSection() {
               transition={{ delay: 0.1 }}
               className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight"
             >
-              Impulsamos el futuro de los <span className="text-gradient-gold">bienes raíces</span> en toda República Dominicana
+              {get('video_title', 'Impulsamos el futuro de los bienes raíces en toda República Dominicana')}
             </motion.h2>
 
             <motion.div
@@ -92,12 +93,10 @@ export function VideoSection() {
             >
               <Quote className="absolute -left-3 -top-2 h-6 w-6 text-gold/40" fill="currentColor" />
               <p className="text-base lg:text-lg text-muted-foreground leading-relaxed italic">
-                "Nuestra misión es democratizar la inversión inmobiliaria de alto nivel, combinando
-                tecnología, transparencia y experiencia humana para que cada cliente alcance
-                sus metas patrimoniales."
+                {get('video_quote', 'Nuestra misión es democratizar la inversión inmobiliaria de alto nivel, combinando tecnología, transparencia y experiencia humana para que cada cliente alcance sus metas patrimoniales.')}
               </p>
               <p className="mt-3 text-sm font-semibold text-foreground">
-                — Equipo Directivo, IMPULSA Real Estate
+                {get('video_author', '— Equipo Directivo, IMPULSA Real Estate')}
               </p>
             </motion.div>
 
@@ -105,7 +104,7 @@ export function VideoSection() {
             <div className="grid sm:grid-cols-3 gap-4 pt-2">
               {VALUES.map((v, i) => (
                 <motion.div
-                  key={v.title}
+                  key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}

@@ -1,24 +1,26 @@
 'use client'
 
 import * as React from 'react'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Play, TrendingUp, Shield, Award } from 'lucide-react'
 import { useAppStore } from '@/lib/store'
 import { Button } from '@/components/ui/button'
 import { PropertySearchSection } from './property-search-section'
-
-const HERO_IMG = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80'
-
-const STATS = [
-  { value: '500+', label: 'Propiedades vendidas', icon: TrendingUp },
-  { value: '15 años', label: 'En el mercado', icon: Award },
-  { value: '$250M+', label: 'En transacciones', icon: Shield },
-]
+import { useSettings } from '@/hooks/use-settings'
+import { convertImageUrl } from '@/lib/image-utils'
 
 export function Hero() {
   const { setView } = useAppStore()
+  const { get } = useSettings()
   const [videoOpen, setVideoOpen] = React.useState(false)
+
+  const bannerImg = convertImageUrl(get('hero_banner_image', 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80'))
+
+  const STATS = [
+    { value: get('hero_stat1_value', '500+'), label: get('hero_stat1_label', 'Propiedades vendidas'), icon: TrendingUp },
+    { value: get('hero_stat2_value', '15 años'), label: get('hero_stat2_label', 'En el mercado'), icon: Award },
+    { value: get('hero_stat3_value', '$250M+'), label: get('hero_stat3_label', 'En transacciones'), icon: Shield },
+  ]
 
   return (
     <>
@@ -26,13 +28,11 @@ export function Hero() {
       <section className="relative min-h-[78vh] lg:min-h-[82vh] flex items-center pt-28 pb-32 overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 -z-10">
-          <Image
-            src={HERO_IMG}
+          <img
+            src={bannerImg}
             alt="Propiedad de lujo en República Dominicana"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
+            className="object-cover w-full h-full"
+            onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80' }}
           />
           {/* Dark gradient overlay for strong text contrast */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-background" />
@@ -52,7 +52,7 @@ export function Hero() {
           >
             <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
             <span className="text-xs font-semibold tracking-wide text-gold uppercase drop-shadow">
-              #1 Inmobiliaria Premium en República Dominicana
+              {get('hero_badge', '#1 Inmobiliaria Premium en República Dominicana')}
             </span>
           </motion.div>
 
@@ -62,9 +62,9 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-white drop-shadow-2xl"
           >
-            Invierte en
-            <span className="block text-gradient-gold drop-shadow-lg">bienes raíces</span>
-            con inteligencia.
+            {get('hero_title_line1', 'Invierte en')}
+            <span className="block text-gradient-gold drop-shadow-lg">{get('hero_title_line2', 'bienes raíces')}</span>
+            {get('hero_title_line3', 'con inteligencia.')}
           </motion.h1>
 
           <motion.p
@@ -73,8 +73,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.25 }}
             className="text-base sm:text-lg text-white/85 max-w-2xl mx-auto leading-relaxed mt-6 drop-shadow-lg"
           >
-            La plataforma corporativa que combina propiedades premium, asesoría financiera
-            experta y herramientas inteligentes para impulsar tu patrimonio inmobiliario en toda República Dominicana.
+            {get('hero_subtitle', 'La plataforma corporativa que combina propiedades premium, asesoría financiera experta y herramientas inteligentes para impulsar tu patrimonio inmobiliario en toda República Dominicana.')}
           </motion.p>
 
           {/* CTA buttons */}
@@ -90,7 +89,7 @@ export function Hero() {
               className="bg-gradient-gold text-gold-foreground hover:opacity-90 shadow-gold h-12 px-7"
             >
               <TrendingUp className="h-5 w-5 mr-2" />
-              Explorar Dashboard
+              {get('hero_cta1', 'Explorar Dashboard')}
             </Button>
             <Button
               onClick={() => setVideoOpen(true)}
@@ -99,7 +98,7 @@ export function Hero() {
               className="h-12 px-7 glass border-border/50"
             >
               <Play className="h-5 w-5 mr-2 text-gold" />
-              Ver video corporativo
+              {get('hero_cta2', 'Ver video corporativo')}
             </Button>
           </motion.div>
 

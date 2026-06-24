@@ -2,21 +2,23 @@
 
 import * as React from 'react'
 import { motion } from 'framer-motion'
-import { TrendingUp, Users, Building2, DollarSign, Award, Globe, ArrowRight } from 'lucide-react'
+import { TrendingUp, Users, Building2, DollarSign, Award, Globe } from 'lucide-react'
 import { useAppStore } from '@/lib/store'
 import { Button } from '@/components/ui/button'
-
-const STATS = [
-  { icon: Building2, value: '500+', label: 'Propiedades gestionadas' },
-  { icon: DollarSign, value: '$250M+', label: 'En transacciones' },
-  { icon: Users, value: '20+', label: 'Asesores expertos' },
-  { icon: Award, value: '15 años', label: 'De experiencia' },
-  { icon: Globe, value: '12', label: 'Países de inversores' },
-  { icon: TrendingUp, value: '18%', label: 'ROI promedio anual' },
-]
+import { useSettings } from '@/hooks/use-settings'
 
 export function StatsBand() {
   const { setView } = useAppStore()
+  const { get } = useSettings()
+
+  const STATS = [
+    { icon: Building2, value: get('stats_stat1_value', '500+'), label: get('stats_stat1_label', 'Propiedades gestionadas') },
+    { icon: DollarSign, value: get('stats_stat2_value', '$250M+'), label: get('stats_stat2_label', 'En transacciones') },
+    { icon: Users, value: get('stats_stat3_value', '20+'), label: get('stats_stat3_label', 'Asesores expertos') },
+    { icon: Award, value: get('stats_stat4_value', '15 años'), label: get('stats_stat4_label', 'De experiencia') },
+    { icon: Globe, value: get('stats_stat5_value', '12'), label: get('stats_stat5_label', 'Países de inversores') },
+    { icon: TrendingUp, value: get('stats_stat6_value', '18%'), label: get('stats_stat6_label', 'ROI promedio anual') },
+  ]
 
   // Load brands from settings (editable in admin)
   const [brandConfig, setBrandConfig] = React.useState({
@@ -75,7 +77,7 @@ export function StatsBand() {
               className="inline-flex items-center gap-2 mb-3"
             >
               <span className="h-px w-8 bg-gold" />
-              <span className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">Por qué IMPULSA</span>
+              <span className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">{get('stats_label', 'Por qué IMPULSA')}</span>
               <span className="h-px w-8 bg-gold" />
             </motion.div>
             <motion.h2
@@ -85,7 +87,7 @@ export function StatsBand() {
               transition={{ delay: 0.1 }}
               className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight"
             >
-              Números que <span className="text-gradient-gold">impulsan</span> confianza
+              {get('stats_title', 'Números que impulsan confianza')}
             </motion.h2>
           </div>
 

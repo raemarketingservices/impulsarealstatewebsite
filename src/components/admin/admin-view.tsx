@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { motion } from 'framer-motion'
-import { Save, RotateCcw, MessageCircle, Phone, Mail, MapPin, Instagram, Facebook, Check, Lock, ArrowLeft, Plus, Trash2, ExternalLink, Award } from 'lucide-react'
+import { Save, RotateCcw, MessageCircle, Phone, Mail, MapPin, Instagram, Facebook, Check, Lock, ArrowLeft, Plus, Trash2, ExternalLink, Award, Building2, Home, Users, Images, HelpCircle } from 'lucide-react'
 import { useAppStore } from '@/lib/store'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -29,14 +29,19 @@ function SettingsIcon({ className }: { className?: string }) {
 }
 
 const GROUP_CONFIG: Record<string, { title: string; icon: React.ElementType; description: string }> = {
-  whatsapp: { title: 'Números de WhatsApp', icon: MessageCircle, description: 'Edita los números de WhatsApp de la empresa y cada asesor. Formato: código de país + número (ej: 18095550100).' },
+  hero: { title: 'Hero Banner (Inicio)', icon: Building2, description: 'Edita el texto, estadísticas e imagen de fondo del banner principal. Soporta links de Google Drive para la imagen.' },
+  home_sections: { title: 'Secciones de la Home', icon: Home, description: 'Edita el texto del buscador, propiedades destacadas, video corporativo y estadísticas. Soporta links de Google Drive para imágenes.' },
+  agents_page: { title: 'Página de Agentes', icon: Users, description: 'Edita el texto del directorio de agentes.' },
+  gallery_page: { title: 'Galería y Testimonios', icon: Images, description: 'Edita el texto de la galería social y testimonios.' },
+  faq_page: { title: 'Página de FAQ', icon: HelpCircle, description: 'Edita el texto de la sección de preguntas frecuentes.' },
+  whatsapp: { title: 'Números de WhatsApp', icon: MessageCircle, description: 'Edita los números de WhatsApp de la empresa y cada asesor.' },
   contact: { title: 'Información de Contacto', icon: Phone, description: 'Teléfono, email y dirección general de la empresa.' },
   social: { title: 'Redes Sociales', icon: Instagram, description: 'Enlaces a perfiles de redes sociales.' },
-  brands: { title: 'Inmobiliarias que Confían', icon: Award, description: 'Edita la lista de inmobiliarias que se muestran en la cinta giratoria de la página principal. Los cambios se actualizan en tiempo real.' },
+  brands: { title: 'Inmobiliarias que Confían', icon: Award, description: 'Edita la lista de inmobiliarias de la cinta giratoria. Se actualiza en tiempo real.' },
   general: { title: 'Configuración General', icon: SettingsIcon, description: 'Otras configuraciones del sistema.' },
 }
 
-const GROUP_ORDER = ['whatsapp', 'contact', 'social', 'brands', 'general']
+const GROUP_ORDER = ['hero', 'home_sections', 'agents_page', 'gallery_page', 'faq_page', 'whatsapp', 'contact', 'social', 'brands', 'general']
 
 // Keys whose value is long text → render as textarea
 const TEXTAREA_KEYS = new Set([
@@ -47,6 +52,18 @@ const TEXTAREA_KEYS = new Set([
   'footer_copyright',
   'footer_description',
   'address',
+  'hero_subtitle',
+  'hero_banner_image',
+  'featured_description',
+  'video_title',
+  'video_quote',
+  'video_value1_desc',
+  'video_value2_desc',
+  'video_value3_desc',
+  'video_poster_image',
+  'agents_description',
+  'gallery_description',
+  'faq_description',
 ])
 
 export function AdminView() {

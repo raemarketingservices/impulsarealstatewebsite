@@ -525,3 +525,46 @@ Stage Summary:
 - Admin password: impulsa2026 (hint removed from preview)
 - Trust brands: 9 inmobiliarias, editable from admin, real-time updates
 - Agent photos use native <img> tags supporting any URL including Google Drive
+
+---
+Task ID: 16
+Agent: Main (Orchestrator)
+Task: Make all site content editable from admin panel (text, stats, banners) with real-time updates
+
+Work Log:
+- Created useSettings hook (src/hooks/use-settings.ts) for loading settings from API
+- Seeded 57 content settings organized by page/section:
+  - hero: 14 settings (badge, title lines, subtitle, CTA buttons, banner image, 3 stats × value+label)
+  - home_sections: 32 settings (search title/subtitle, featured label/title/desc, video label/title/quote/author/3 values/title+desc, poster image, caption title+subtitle, stats label/title + 6 stats × value+label)
+  - agents_page: 3 settings (label, title, description)
+  - gallery_page: 5 settings (gallery label/title/desc, testimonials label/title)
+  - faq_page: 3 settings (label, title, description)
+- Updated Hero component: loads ALL text + banner image from settings, uses native <img> with convertImageUrl for Google Drive support
+- Updated FeaturedProperties: loads label, title, description from settings
+- Updated VideoSection: loads all text (label, title, quote, author, 3 values, caption) + poster image from settings
+- Updated StatsBand: loads stats label, title, and all 6 stats (value+label) from settings
+- Updated PropertySearchSection: loads search title and subtitle from settings
+- Updated AdminView with 5 new content groups:
+  - Hero Banner (Inicio) - Building2 icon
+  - Secciones de la Home - Home icon
+  - Página de Agentes - Users icon
+  - Galería y Testimonios - Images icon
+  - Página de FAQ - HelpCircle icon
+- Added long-text keys to TEXTAREA_KEYS for proper rendering (hero_subtitle, hero_banner_image, video fields, descriptions, etc.)
+- All content updates in real-time: when admin saves changes, site reflects them immediately on next page load
+- Recreated src/lib/image-utils.ts (was missing) with convertImageUrl for Google Drive support
+- Agent Browser verification:
+  - Home page: hero text, banner image, stats all visible ✅
+  - Admin: all 8+ content sections visible with editable fields ✅
+  - Hero Banner section with 14 settings ✅
+  - Secciones de la Home with 32 settings ✅
+  - All other page sections (agents, gallery, FAQ) ✅
+- bun run lint: 0 errors
+
+Stage Summary:
+- ALL site text content is now editable from the admin panel
+- Hero banner image supports Google Drive links (auto-converted)
+- Video poster image supports Google Drive links
+- All stats (years in market, properties sold, ROI, etc.) editable
+- Content organized by page: hero, home_sections, agents_page, gallery_page, faq_page
+- Changes save to DB and reflect on site in real-time

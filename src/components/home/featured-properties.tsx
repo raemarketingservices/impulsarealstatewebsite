@@ -4,8 +4,10 @@ import * as React from 'react'
 import { motion } from 'framer-motion'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { PropertyCard, PropertyCardSkeleton, type Property } from './property-card'
+import { useSettings } from '@/hooks/use-settings'
 
 export function FeaturedProperties() {
+  const { get } = useSettings()
   const [properties, setProperties] = React.useState<Property[]>([])
   const [loading, setLoading] = React.useState(true)
 
@@ -32,7 +34,7 @@ export function FeaturedProperties() {
               className="inline-flex items-center gap-2 mb-3"
             >
               <span className="h-px w-8 bg-gold" />
-              <span className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">Propiedades Destacadas</span>
+              <span className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">{get('featured_label', 'Propiedades Destacadas')}</span>
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -41,7 +43,7 @@ export function FeaturedProperties() {
               transition={{ delay: 0.1 }}
               className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight"
             >
-              Oportunidades inmobiliarias <span className="text-gradient-gold">premium</span>
+              {get('featured_title', 'Oportunidades inmobiliarias premium')}
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -50,7 +52,7 @@ export function FeaturedProperties() {
               transition={{ delay: 0.2 }}
               className="text-muted-foreground mt-3 text-base lg:text-lg"
             >
-              Una curaduría exclusiva de las mejores propiedades en República Dominicana.
+              {get('featured_description', 'Una curaduría exclusiva de las mejores propiedades en República Dominicana.')}
             </motion.p>
           </div>
         </div>

@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { PropertyCard, PropertyCardSkeleton, EmptyState, type Property } from './property-card'
 import { toast } from 'sonner'
+import { useSettings } from '@/hooks/use-settings'
 
 export interface SearchFilters {
   q: string
@@ -48,6 +49,7 @@ const PRICE_PRESETS = [
 ]
 
 export function PropertySearchSection() {
+  const { get } = useSettings()
   const [filters, setFilters] = React.useState<SearchFilters>(DEFAULT_FILTERS)
   const [results, setResults] = React.useState<Property[] | null>(null)
   const [loading, setLoading] = React.useState(false)
@@ -133,10 +135,10 @@ export function PropertySearchSection() {
               <span className="h-px w-8 bg-gold" />
             </div>
             <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight">
-              Encuentra tu próxima <span className="text-gradient-gold">propiedad</span>
+              {get('search_title', 'Encuentra tu próxima propiedad')}
             </h2>
             <p className="text-sm text-muted-foreground mt-2">
-              Filtros inteligentes · Resultados en tiempo real de nuestro listing
+              {get('search_subtitle', 'Filtros avanzados · Resultados en tiempo real de nuestro listing')}
             </p>
           </div>
 
