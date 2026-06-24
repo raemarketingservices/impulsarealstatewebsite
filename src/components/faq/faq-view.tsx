@@ -46,14 +46,6 @@ const FAQ_ITEMS: FAQItem[] = [
     keywords: ['ROI inmobiliario', 'inversión bienes raíces'],
   },
   {
-    id: 'faq-3',
-    question: '¿Cómo funciona el financiamiento hipotecario para no residentes?',
-    answer:
-      'Varios bancos dominicanos ofrecen financiamiento hipotecario a no residentes con tasas desde 9% en pesos (DOP) y 7.5% en dólares (USD). El monto financiable suele ser de 50% a 70% del valor de la propiedad, a plazos de hasta 20 años. Requiere comprobante de ingresos en el exterior, referencias bancarias y un down payment del 30% al 50%. Usa nuestra calculadora hipotecaria para simular tu cuota mensual.',
-    category: 'Financiamiento',
-    keywords: ['financiamiento hipotecario', 'calculadora hipotecaria'],
-  },
-  {
     id: 'faq-4',
     question: '¿Qué impuestos debo pagar al comprar una propiedad en RD?',
     answer:
@@ -68,14 +60,6 @@ const FAQ_ITEMS: FAQItem[] = [
       'Las mejores zonas para invertir en Santo Domingo son Piantini, Naco, Bella Vista y Evaristo Morales para apartamentos premium orientados a ejecutivos; el Malecón y Gazcue para propiedades históricas con potencial turístico; y Las Terrazas y Costa Verde para desarrollos frente al mar. El acceso a Metro, centros comerciales y bilingual schools son los drivers de plusvalía que evaluamos en cada recomendación.',
     category: 'Ubicación',
     keywords: ['mejores zonas para invertir', 'inversión bienes raíces'],
-  },
-  {
-    id: 'faq-6',
-    question: '¿Puedo usar la calculadora hipotecaria para planificar mi compra?',
-    answer:
-      'Sí. Nuestra calculadora hipotecaria integra el monto del préstamo, tasa de interés, plazo y down payment para proyectar tu cuota mensual, el costo total del crédito y el schedule de amortización. Combínala con tus metas de ahorro para definir cuánto capital necesitas acumular antes de iniciar la búsqueda de propiedades. La herramienta está disponible en el Dashboard.',
-    category: 'Herramientas',
-    keywords: ['calculadora hipotecaria', 'metas de ahorro'],
   },
   {
     id: 'faq-7',
@@ -97,7 +81,7 @@ const FAQ_ITEMS: FAQItem[] = [
     id: 'faq-9',
     question: '¿IMPULSA Real Estate ofrece asesoría financiera?',
     answer:
-      'Sí. IMPULSA ofrece asesoría inmobiliaria integral que incluye análisis financiero, estructuración fiscal, planeación de metas de ahorro y simulación de financiamiento hipotecario. Nuestros asesores certificados evalúan tu perfil de inversor, horizonte temporal y tolerancia al riesgo para diseñar una estrategia a tu medida. La primera consulta es sin costo para clientes registrados.',
+      'Sí. IMPULSA ofrece asesoría inmobiliaria integral que incluye análisis financiero, estructuración fiscal, planeación de metas de ahorro. Nuestros asesores certificados evalúan tu perfil de inversor, horizonte temporal y tolerancia al riesgo para diseñar una estrategia a tu medida. La primera consulta es sin costo para clientes registrados.',
     category: 'Servicios',
     keywords: ['asesoría inmobiliaria', 'metas de ahorro'],
   },
@@ -276,7 +260,7 @@ export function FAQView() {
           </h1>
           <p className="mt-5 text-base sm:text-lg text-muted-foreground leading-relaxed">
             Todo lo que necesitas saber para invertir en bienes raíces en República Dominicana:
-            requisitos legales, financiamiento hipotecario, impuestos, ROI inmobiliario y más.
+            requisitos legales, impuestos, ROI inmobiliario y más.
           </p>
         </motion.div>
 
@@ -473,7 +457,7 @@ export function FAQView() {
                   Cuéntanos tu <span className="text-gradient-gold">inquietud</span>
                 </h2>
                 <p className="text-sm text-primary-foreground/80 leading-relaxed mb-6">
-                  Ya sea sobre compra, venta, financiamiento hipotecario o estrategias de inversión
+                  Ya sea sobre compra, venta o estrategias de inversión
                   en bienes raíces, nuestro equipo está listo para ayudarte.
                 </p>
                 <ul className="space-y-3 text-sm">

@@ -996,16 +996,6 @@ export function DashboardView() {
           <ProjectionChart />
         </motion.div>
 
-        {/* Module 2: Mortgage calculator — full width */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.36 }}
-          className="mt-6"
-        >
-          <MortgageCalculator />
-        </motion.div>
-
         {/* Modules 3, 4, 5 — 3 column grid on xl */}
         <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
           <motion.div

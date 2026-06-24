@@ -664,3 +664,28 @@ Stage Summary:
 - Property preview shows assigned agent with full contact info: WhatsApp, email, Instagram, TikTok, Facebook
 - Agent photos load from Google Drive in the preview modal
 - Social media icons appear next to agent name in the property detail modal
+
+---
+Task ID: 20
+Agent: Main (Orchestrator)
+Task: Remove all mortgage/hipoteca references
+
+Work Log:
+- Removed MortgageCalculator module from dashboard render (module 2 was the mortgage calculator)
+- Removed 2 FAQ questions about mortgages:
+  - "¿Cómo funciona el financiamiento hipotecario para no residentes?"
+  - "¿Puedo usar la calculadora hipotecaria para planificar mi compra?"
+- Cleaned up remaining mortgage references in FAQ text:
+  - Removed "simulación de financiamiento hipotecario" from asesoría answer
+  - Removed "financiamiento hipotecario" from FAQ description text
+  - Removed "financiamiento hipotecario" from contact form hint text
+- Agent Browser verification:
+  - Dashboard: "hipoteca" not found ✅
+  - FAQ: "hipoteca" not found ✅
+  - FAQ: "calculadora hipot" not found ✅
+- bun run lint: 0 errors
+
+Stage Summary:
+- All mortgage calculator and hipoteca references removed from dashboard and FAQ
+- Dashboard now shows: investment projection chart, property status, goals tracker, portfolio distribution
+- FAQ has 10 questions (was 12, removed 2 mortgage-related)
