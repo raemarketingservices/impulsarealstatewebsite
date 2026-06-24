@@ -10,12 +10,14 @@ import { GalleryView } from '@/components/social/gallery-view'
 import { DashboardView } from '@/components/dashboard/dashboard-view'
 import { FAQView } from '@/components/faq/faq-view'
 import { AdminView } from '@/components/admin/admin-view'
+import { AgentDashboardView } from '@/components/agent/agent-dashboard-view'
+import { AgentLoginDialog } from '@/components/auth/agent-login-dialog'
 import { PropertyDetailDialog } from '@/components/home/property-detail-dialog'
 import { FloatingWhatsApp } from '@/components/floating/whatsapp-button'
 import { useAppStore, type ViewKey } from '@/lib/store'
 import { Toaster as SonnerToaster } from 'sonner'
 
-const VALID_VIEWS: ViewKey[] = ['home', 'agents', 'gallery', 'dashboard', 'faq', 'admin']
+const VALID_VIEWS: ViewKey[] = ['home', 'agents', 'gallery', 'dashboard', 'faq', 'admin', 'agentDashboard']
 
 export default function Home() {
   const { view, setView } = useAppStore()
@@ -37,6 +39,7 @@ export default function Home() {
         {view === 'dashboard' && <DashboardView />}
         {view === 'faq' && <FAQView />}
         {view === 'admin' && <AdminView />}
+        {view === 'agentDashboard' && <AgentDashboardView />}
       </main>
       <Footer />
 
@@ -48,6 +51,9 @@ export default function Home() {
 
       {/* Auth dialog (reads its open state from the global store) */}
       <LoginDialog />
+
+      {/* Agent login dialog (reads its open state from the global store) */}
+      <AgentLoginDialog />
 
       {/* Sonner toast viewport */}
       <SonnerToaster position="top-center" richColors closeButton />

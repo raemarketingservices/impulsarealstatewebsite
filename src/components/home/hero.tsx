@@ -44,18 +44,6 @@ export function Hero() {
         <div className="absolute inset-0 grid-pattern opacity-20 -z-10" />
 
         <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 w-full text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/40 backdrop-blur-md mb-6"
-          >
-            <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-            <span className="text-xs font-semibold tracking-wide text-gold uppercase drop-shadow">
-              {get('hero_badge', '#1 Inmobiliaria Premium en República Dominicana')}
-            </span>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

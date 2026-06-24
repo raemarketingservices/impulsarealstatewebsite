@@ -1,10 +1,16 @@
 import { create } from 'zustand'
 
-export type ViewKey = 'home' | 'agents' | 'gallery' | 'dashboard' | 'faq' | 'admin'
+export type ViewKey = 'home' | 'agents' | 'gallery' | 'dashboard' | 'faq' | 'admin' | 'agentDashboard'
 
 export interface PropertyDetailState {
   open: boolean
   propertyId: string | null
+}
+
+export interface AgentSession {
+  agentId: string
+  name: string
+  email: string
 }
 
 interface AppState {
@@ -19,6 +25,10 @@ interface AppState {
   propertyDetail: PropertyDetailState
   openPropertyDetail: (id: string) => void
   closePropertyDetail: () => void
+  agentSession: AgentSession | null
+  setAgentSession: (s: AgentSession | null) => void
+  agentLoginOpen: boolean
+  setAgentLoginOpen: (b: boolean) => void
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -38,4 +48,8 @@ export const useAppStore = create<AppState>((set) => ({
   propertyDetail: { open: false, propertyId: null },
   openPropertyDetail: (id) => set({ propertyDetail: { open: true, propertyId: id } }),
   closePropertyDetail: () => set({ propertyDetail: { open: false, propertyId: null } }),
+  agentSession: null,
+  setAgentSession: (s) => set({ agentSession: s }),
+  agentLoginOpen: false,
+  setAgentLoginOpen: (b) => set({ agentLoginOpen: b }),
 }))

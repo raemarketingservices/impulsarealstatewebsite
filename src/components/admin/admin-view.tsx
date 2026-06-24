@@ -11,6 +11,7 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { toast } from 'sonner'
 import { refreshSettings } from '@/hooks/use-settings'
+import { AgentsManager } from './agents-manager'
 
 interface Setting {
   key: string
@@ -75,6 +76,7 @@ export function AdminView() {
   const [saving, setSaving] = React.useState(false)
   const [authed, setAuthed] = React.useState(false)
   const [adminPass, setAdminPass] = React.useState('')
+  const [activeTab, setActiveTab] = React.useState<'settings' | 'agents'>('settings')
 
   const loadSettings = React.useCallback(async () => {
     setLoading(true)
@@ -233,21 +235,54 @@ export function AdminView() {
                 <span className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">Panel Admin</span>
               </div>
               <h1 className="font-display text-3xl sm:text-4xl font-bold tracking-tight">
-                Gestión de <span className="text-gradient-gold">WhatsApp y Contactos</span>
+                {activeTab === 'settings' ? (
+                  <>Gestión de <span className="text-gradient-gold">WhatsApp y Contactos</span></>
+                ) : (
+                  <>Gestión de <span className="text-gradient-gold">Agentes</span></>
+                )}
               </h1>
               <p className="text-sm text-muted-foreground mt-2 max-w-2xl">
-                Edita los números de WhatsApp, enlaces de redes sociales e información de contacto.
-                Los cambios se aplican inmediatamente en todo el sitio.
+                {activeTab === 'settings'
+                  ? 'Edita los números de WhatsApp, enlaces de redes sociales e información de contacto. Los cambios se aplican inmediatamente en todo el sitio.'
+                  : 'Crea, edita y gestiona los asesores inmobiliarios del directorio. Cada agente puede tener propiedades asignadas.'}
               </p>
             </div>
             <Button variant="ghost" onClick={() => setView('home')} className="shrink-0">
               <ArrowLeft className="h-4 w-4 mr-2" /> Volver
             </Button>
           </div>
+
+          {/* Tab switcher */}
+          <div className="mt-6 flex gap-1 p-1 rounded-xl bg-muted/60 w-fit">
+            <button
+              type="button"
+              onClick={() => setActiveTab('settings')}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                activeTab === 'settings'
+                  ? 'bg-background shadow-sm text-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <SettingsIcon className="h-4 w-4" />
+              Configuración
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('agents')}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                activeTab === 'agents'
+                  ? 'bg-background shadow-sm text-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Users className="h-4 w-4" />
+              Agentes
+            </button>
+          </div>
         </motion.div>
 
-        {/* Save bar */}
-        {hasChanges && (
+        {/* Save bar (settings only) */}
+        {activeTab === 'settings' && hasChanges && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -274,7 +309,9 @@ export function AdminView() {
           </motion.div>
         )}
 
-        {loading ? (
+        {activeTab === 'agents' ? (
+          <AgentsManager />
+        ) : loading ? (
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
               <Card key={i} className="p-6">
