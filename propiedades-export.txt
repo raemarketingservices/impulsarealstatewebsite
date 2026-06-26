@@ -1,0 +1,374 @@
+════════════════════════════════════════════════════════════════════════════════
+  IMPULSA REAL ESTATE — CATÁLOGO COMPLETO DE PROPIEDADES
+  Fecha de exportación: 26/6/2026, 2:45:48 a. m.
+  Total de propiedades: 8
+════════════════════════════════════════════════════════════════════════════════
+
+────────────────────────────────────────────────────────────────────────────────
+PROPIEDAD #1
+────────────────────────────────────────────────────────────────────────────────
+Título: Mansión Contemporánea en Arroyo Hondo
+Tipo: HOUSE
+Operación: Venta
+Estado: FOR_SALE
+Precio: $2,150,000 USD
+Ubicación: Arroyo Hondo, Santiago (Zona Norte)
+
+--- ESPECIFICACIONES ---
+Habitaciones: 6
+Baños: 7
+Área: 700 m²
+Parqueos: 6
+Destacada: Sí
+Publicada: Sí
+Vistas: 0
+
+--- DESCRIPCIÓN ---
+Imponente residencia de 700m² en sector exclusivo. 6 habitaciones, cine, gym, piscina olímpica y cancha de tennis.
+
+--- CARACTERÍSTICAS ---
+  1. Cine
+  2. Gym
+  3. Piscina olímpica
+  4. Cancha de tennis
+  5. Casa de servicio
+  6. Bodega
+
+--- IMÁGENES (3) ---
+  [1] https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80
+  [2] https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80
+  [3] https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&q=80
+
+--- AGENTE ASIGNADO ---
+  Nombre: Geovanny Reynoso
+  Cargo: Broker Owner
+  Teléfono: +1 829-696-7140
+  Email: geovanny.reynoso@impulsarealestate.com
+  WhatsApp: 9146733141
+
+--- METADATOS ---
+  ID: cmqic26bt000hpcbr2k3x96ly
+  Creada: 2026-06-17T17:16:38.921Z
+  Actualizada: 2026-06-24T04:07:43.931Z
+
+────────────────────────────────────────────────────────────────────────────────
+PROPIEDAD #2
+────────────────────────────────────────────────────────────────────────────────
+Título: Penthouse con Terraza Panorámica
+Tipo: APARTMENT
+Operación: Venta
+Estado: FOR_SALE
+Precio: $540,000 USD
+Ubicación: Bavaro, Punta Cana (Zona Este)
+
+--- ESPECIFICACIONES ---
+Habitaciones: 3
+Baños: 3
+Área: 210 m²
+Parqueos: 2
+Destacada: Sí
+Publicada: Sí
+Vistas: 0
+
+--- DESCRIPCIÓN ---
+Ático de dos niveles con terraza de 80m², baño de vapor y vista al mar. En edificio boutique de solo 8 unidades.
+
+--- CARACTERÍSTICAS ---
+  1. Terraza 80m²
+  2. Baño de vapor
+  3. Edificio boutique
+  4. Vista al mar
+
+--- IMÁGENES (3) ---
+  [1] https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80
+  [2] https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80
+  [3] https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200&q=80
+
+--- AGENTE ASIGNADO ---
+  Nombre: Graisbel Lora Longo
+  Cargo: Broker Manager
+  Teléfono: +1 829-696-7140
+  Email: graisbel.lora@impulsarealestate.com
+  WhatsApp: 9146733141
+
+--- METADATOS ---
+  ID: cmqic26bs000fpcbrzca8chbk
+  Creada: 2026-06-17T17:16:38.920Z
+  Actualizada: 2026-06-24T04:07:43.930Z
+
+────────────────────────────────────────────────────────────────────────────────
+PROPIEDAD #3
+────────────────────────────────────────────────────────────────────────────────
+Título: Villa de Playa en Las Terrenas
+Tipo: VILLA
+Operación: Venta
+Estado: FOR_SALE
+Precio: $890,000 USD
+Ubicación: Las Terrenas, Las Terrenas (Zona Noreste)
+
+--- ESPECIFICACIONES ---
+Habitaciones: 4
+Baños: 4
+Área: 380 m²
+Parqueos: 2
+Destacada: Sí
+Publicada: Sí
+Vistas: 0
+
+--- DESCRIPCIÓN ---
+Paraíso tropical en la costa de Las Terrenas. Villa con arquitectura tropical dominicana, frente a la playa, ideal para renta vacacional o residencia.
+
+--- CARACTERÍSTICAS ---
+  1. Frente de playa
+  2. Renta vacacional
+  3. Coco palms
+  4. Piscina
+  5. Bodega de vinos
+
+--- IMÁGENES (3) ---
+  [1] https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1200&q=80
+  [2] https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80
+  [3] https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80
+
+--- AGENTE ASIGNADO ---
+  Nombre: Emmanuel Badía Bretón
+  Cargo: Agente Inmobiliario
+  Teléfono: +1 829-696-7140
+  Email: emmanuel.badia@impulsarealestate.com
+  WhatsApp: 9146733141
+
+--- METADATOS ---
+  ID: cmqic26br000dpcbrtwe8snkr
+  Creada: 2026-06-17T17:16:38.919Z
+  Actualizada: 2026-06-24T04:07:43.928Z
+
+────────────────────────────────────────────────────────────────────────────────
+PROPIEDAD #4
+────────────────────────────────────────────────────────────────────────────────
+Título: Apartamento de Lujo en Blue Mall
+Tipo: APARTMENT
+Operación: Venta
+Estado: FOR_SALE
+Precio: $420,000 USD
+Ubicación: Blue Mall Tower, Santo Domingo (Zona Nacional)
+
+--- ESPECIFICACIONES ---
+Habitaciones: 2
+Baños: 2
+Área: 165 m²
+Parqueos: 2
+Destacada: Sí
+Publicada: Sí
+Vistas: 0
+
+--- DESCRIPCIÓN ---
+Apartamento de alta gama en Blue Mall Tower con acceso directo al centro comercial. Acabados importados, cocina italiana y sistema de domótica.
+
+--- CARACTERÍSTICAS ---
+  1. Domótica
+  2. Acceso a mall
+  3. Piscina de edificio
+  4. Gym
+  5. Sky lounge
+
+--- IMÁGENES (3) ---
+  [1] https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80
+  [2] https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=80
+  [3] https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80
+
+--- AGENTE ASIGNADO ---
+  Nombre: Jarlynes Castillo
+  Cargo: Asesora Inmobiliaria & Especialista en Inversión
+  Teléfono: +1 829-696-7140
+  Email: jarlynes.castillo@impulsarealestate.com
+  WhatsApp: 9146733141
+
+--- METADATOS ---
+  ID: cmqic26bq000bpcbry4zb6jfs
+  Creada: 2026-06-17T17:16:38.918Z
+  Actualizada: 2026-06-24T04:07:43.927Z
+
+────────────────────────────────────────────────────────────────────────────────
+PROPIEDAD #5
+────────────────────────────────────────────────────────────────────────────────
+Título: Penthouse Ejecutivo en Piantini
+Tipo: APARTMENT
+Operación: Venta
+Estado: FOR_SALE
+Precio: $685,000 USD
+Ubicación: Torre Piantini, Santo Domingo (Zona Nacional)
+
+--- ESPECIFICACIONES ---
+Habitaciones: 3
+Baños: 4
+Área: 280 m²
+Parqueos: 3
+Destacada: Sí
+Publicada: Sí
+Vistas: 0
+
+--- DESCRIPCIÓN ---
+Espectacular penthouse de 4 niveles en el corazón financiero de Santo Domingo. Vista panorámica de 360°, terraza privada con jacuzzi y acceso a amenities de edificio premium.
+
+--- CARACTERÍSTICAS ---
+  1. Vista 360°
+  2. Jacuzzi privado
+  3. Gym
+  4. Concierge 24/7
+  5. Doble altura
+
+--- IMÁGENES (3) ---
+  [1] https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=1200&q=80
+  [2] https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80
+  [3] https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80
+
+--- AGENTE ASIGNADO ---
+  Nombre: Geovanny Reynoso
+  Cargo: Broker Owner
+  Teléfono: +1 829-696-7140
+  Email: geovanny.reynoso@impulsarealestate.com
+  WhatsApp: 9146733141
+
+--- METADATOS ---
+  ID: cmqic26bo0007pcbri790uyha
+  Creada: 2026-06-17T17:16:38.917Z
+  Actualizada: 2026-06-24T04:07:43.924Z
+
+────────────────────────────────────────────────────────────────────────────────
+PROPIEDAD #6
+────────────────────────────────────────────────────────────────────────────────
+Título: Casa Moderna en Casa de Campo
+Tipo: HOUSE
+Operación: Venta
+Estado: FOR_SALE
+Precio: $1,250,000 USD
+Ubicación: Casa de Campo, La Romana (Zona Este)
+
+--- ESPECIFICACIONES ---
+Habitaciones: 4
+Baños: 5
+Área: 450 m²
+Parqueos: 3
+Destacada: Sí
+Publicada: Sí
+Vistas: 0
+
+--- DESCRIPCIÓN ---
+Residencia contemporánea en el exclusivo resort Casa de Campo. Diseño minimalista con materiales nobles, piscina privada y vista al campo de golf.
+
+--- CARACTERÍSTICAS ---
+  1. Vista al golf
+  2. Piscina privada
+  3. Cocina abierta
+  4. Terraza
+  5. Casa de servicio
+
+--- IMÁGENES (3) ---
+  [1] https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80
+  [2] https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&q=80
+  [3] https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200&q=80
+
+--- AGENTE ASIGNADO ---
+  Nombre: Richard Estrella
+  Cargo: Agente Inmobiliario
+  Teléfono: +1 829-696-7140
+  Email: richard.estrella@impulsarealestate.com
+  WhatsApp: 9146733141
+
+--- METADATOS ---
+  ID: cmqic26bp0009pcbrycgkhy7o
+  Creada: 2026-06-17T17:16:38.917Z
+  Actualizada: 2026-06-24T04:07:43.926Z
+
+────────────────────────────────────────────────────────────────────────────────
+PROPIEDAD #7
+────────────────────────────────────────────────────────────────────────────────
+Título: Villa Mediterránea con Vista al Mar
+Tipo: VILLA
+Operación: Venta
+Estado: FOR_SALE
+Precio: $1,850,000 USD
+Ubicación: Cap Cana, Punta Cana (Zona Este)
+
+--- ESPECIFICACIONES ---
+Habitaciones: 5
+Baños: 6
+Área: 620 m²
+Parqueos: 4
+Destacada: Sí
+Publicada: Sí
+Vistas: 0
+
+--- DESCRIPCIÓN ---
+Exquisita villa de lujo en Cap Cana con 5 habitaciones, piscina infinita, acceso privado a la playa y acabados de primera calidad. Diseño mediterráneo contemporáneo con amplios espacios abiertos.
+
+--- CARACTERÍSTICAS ---
+  1. Piscina infinita
+  2. Acceso a playa
+  3. Smart home
+  4. Cocina gourmet
+  5. Jardín tropical
+  6. Garaje para 4 autos
+
+--- IMÁGENES (3) ---
+  [1] https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80
+  [2] https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200&q=80
+  [3] https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80
+
+--- AGENTE ASIGNADO ---
+  Nombre: Graisbel Lora Longo
+  Cargo: Broker Manager
+  Teléfono: +1 829-696-7140
+  Email: graisbel.lora@impulsarealestate.com
+  WhatsApp: 9146733141
+
+--- METADATOS ---
+  ID: cmqic26bn0005pcbr0plmrdiz
+  Creada: 2026-06-17T17:16:38.916Z
+  Actualizada: 2026-06-24T04:07:43.923Z
+
+────────────────────────────────────────────────────────────────────────────────
+PROPIEDAD #8
+────────────────────────────────────────────────────────────────────────────────
+Título: Loft Industrial en Zona Colonial
+Tipo: APARTMENT
+Operación: Venta
+Estado: FOR_SALE
+Precio: $285,000 USD
+Ubicación: Zona Colonial, Santo Domingo (Zona Nacional)
+
+--- ESPECIFICACIONES ---
+Habitaciones: 1
+Baños: 2
+Área: 120 m²
+Parqueos: 1
+Destacada: No
+Publicada: Sí
+Vistas: 0
+
+--- DESCRIPCIÓN ---
+Loft de diseño en patrimonio histórico. Vigas expuestas, concreto pulido y mobiliario de diseñador. Ideal para profesional ejecutivo.
+
+--- CARACTERÍSTICAS ---
+  1. Diseño industrial
+  2. Patrimonio histórico
+  3. Doble altura
+  4. Terraza
+
+--- IMÁGENES (3) ---
+  [1] https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80
+  [2] https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=80
+  [3] https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1200&q=80
+
+--- AGENTE ASIGNADO ---
+  Nombre: Richard Estrella
+  Cargo: Agente Inmobiliario
+  Teléfono: +1 829-696-7140
+  Email: richard.estrella@impulsarealestate.com
+  WhatsApp: 9146733141
+
+--- METADATOS ---
+  ID: cmqic26bu000jpcbrcvawtlli
+  Creada: 2026-06-17T17:16:38.922Z
+  Actualizada: 2026-06-24T04:07:43.932Z
+
