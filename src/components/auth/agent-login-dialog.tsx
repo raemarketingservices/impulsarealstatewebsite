@@ -34,7 +34,7 @@ export function AgentLoginDialog() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email.trim() || !password.trim()) {
-      toast.error('Completa email y contraseña')
+      toast.error('Completa usuario y contraseña')
       return
     }
 
@@ -43,7 +43,7 @@ export function AgentLoginDialog() {
       const res = await fetch('/api/agent-auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), password }),
+        body: JSON.stringify({ identifier: email.trim(), password }),
       })
       const data = await res.json()
 
@@ -94,13 +94,13 @@ export function AgentLoginDialog() {
 
         <form onSubmit={handleSubmit} className="p-6 pt-5 space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="agent-email">Correo electrónico</Label>
+            <Label htmlFor="agent-email">Correo o nombre</Label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 id="agent-email"
-                type="email"
-                autoComplete="email"
+                type="text"
+                autoComplete="username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="tu.nombre@impulsarealestate.com"
@@ -108,6 +108,9 @@ export function AgentLoginDialog() {
                 className="pl-10"
               />
             </div>
+            <p className="text-[11px] text-muted-foreground">
+              Puedes entrar con tu correo o tu nombre completo (ej: <span className="text-gold">Geovanny Reynoso</span>).
+            </p>
           </div>
 
           <div className="space-y-2">

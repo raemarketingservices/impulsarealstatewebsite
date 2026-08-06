@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { convexClient } from '@/lib/convex'
 
 // AI-generated interior/exterior photos for the detail gallery
 const GALLERY_PHOTOS = [
@@ -38,14 +38,12 @@ function enrichDescription(p: {
 
   const paragraphs: string[] = []
 
-  // Opening
   paragraphs.push(
     `${p.title} representa una oportunidad única en el mercado inmobiliario dominicano. ` +
     `Ubicada en ${p.location}, ${p.city}, ${subject} combina arquitectura contemporánea con acabados de primera calidad, ` +
     `ofreciendo un estilo de vida sofisticado en uno de los sectores más codiciados de República Dominicana.`
   )
 
-  // Spaces
   const spaces: string[] = []
   if (p.bedrooms > 0) spaces.push(`${p.bedrooms} habitaciones diseñadas para el máximo confort`)
   if (p.bathrooms > 0) spaces.push(`${p.bathrooms} baños con acabados premium`)
@@ -57,7 +55,6 @@ function enrichDescription(p: {
     `la entrada de luz y la privacidad de sus residentes.`
   )
 
-  // Features
   if (features.length > 0) {
     paragraphs.push(
       `Entre las amenidades destacadas se incluyen: ${features.slice(0, 6).join(', ')}. ` +
@@ -66,7 +63,6 @@ function enrichDescription(p: {
     )
   }
 
-  // Investment
   paragraphs.push(
     `Con un precio de $${p.price.toLocaleString()} USD, ${subject} representa una excelente oportunidad de inversión ` +
     `en un mercado en crecimiento sostenido. La zona de ${p.city} ha mostrado una apreciación promedio del 8-12% anual, ` +
@@ -83,34 +79,22 @@ export async function GET(
 ) {
   try {
     const { id } = await params
-    const property = await db.property.findUnique({
-      where: { id },
-      include: { agent: true },
-    })
+    const property = await convexClient.query('functions:getPropertyById', { id })
 
     if (!property) {
       return NextResponse.json({ success: false, error: 'Property not found' }, { status: 404 })
     }
 
-    // Parse images
     let images: string[] = []
     try { images = JSON.parse(property.images) } catch {}
 
-    // Build full gallery: original images first, then AI-generated interiors
     const gallery = [
       ...images,
       ...GALLERY_PHOTOS.filter((p) => images.indexOf(p) === -1),
     ].slice(0, 10)
 
-    // Enrich description
     const enrichedDescription = enrichDescription(property)
-
-    // Get WhatsApp settings for the agent
-    const agentWhatsappKey = property.agent?.name
-      ? `whatsapp_${property.agent.name.split(' ')[0].toLowerCase()}`
-      : 'whatsapp_general'
-    const setting = await db.setting.findUnique({ where: { key: agentWhatsappKey } })
-    const whatsappNumber = setting?.value || '18095550100'
+    const whatsappNumber = property.whatsappNumber
 
     return NextResponse.json({
       success: true,

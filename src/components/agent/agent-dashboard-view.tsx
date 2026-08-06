@@ -28,9 +28,13 @@ import {
   Car,
   ExternalLink,
   Loader2,
+  MapPin,
+  RefreshCw,
+  Mail,
 } from 'lucide-react'
 import { useAppStore } from '@/lib/store'
 import { convertImageUrl } from '@/lib/image-utils'
+import { ImpulsaMap } from '@/components/map/impulsa-map'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -94,6 +98,8 @@ interface AgentProperty {
   city: string
   zone: string
   address?: string | null
+  lat?: number | null
+  lng?: number | null
   images: string
   features: string
   featured: boolean
@@ -125,13 +131,6 @@ function parseJsonArray(raw: string | null | undefined): string[] {
       .map((s) => s.trim())
       .filter(Boolean)
   }
-}
-
-function formatPrice(price: number, currency = 'USD'): string {
-  const symbol = currency === 'USD' ? 'US$' : currency === 'DOP' ? 'RD$' : `${currency} `
-  if (price >= 1_000_000) return `${symbol}${(price / 1_000_000).toFixed(2)}M`
-  if (price >= 1_000) return `${symbol}${(price / 1_000).toFixed(0)}K`
-  return `${symbol}${price.toLocaleString()}`
 }
 
 function formatFullPrice(price: number, currency = 'USD'): string {
@@ -202,7 +201,7 @@ function LoginPrompt() {
               Iniciar sesión como agente
             </Button>
             <p className="text-[11px] text-muted-foreground mt-4 leading-relaxed">
-              Demo: geovanny.reynoso@impulsarealestate.com / impulsa
+              Demo: Geovanny Reynoso o geovanny.reynoso@impulsarealestate.com · contraseña: impulsa
             </p>
           </Card>
         </motion.div>
@@ -279,6 +278,8 @@ interface PropertyFormState {
   city: string
   zone: string
   address: string
+  lat: string
+  lng: string
   imagesRaw: string
   featuresRaw: string
   featured: boolean
@@ -302,6 +303,8 @@ const EMPTY_PROPERTY_FORM: PropertyFormState = {
   city: '',
   zone: '',
   address: '',
+  lat: '',
+  lng: '',
   imagesRaw: '',
   featuresRaw: '',
   featured: false,
@@ -345,6 +348,8 @@ function PropertyFormDialog({
         city: initial.city || '',
         zone: initial.zone || '',
         address: initial.address || '',
+        lat: typeof initial.lat === 'number' ? String(initial.lat) : '',
+        lng: typeof initial.lng === 'number' ? String(initial.lng) : '',
         imagesRaw: parseJsonArray(initial.images).join('\n'),
         featuresRaw: parseJsonArray(initial.features).join('\n'),
         featured: Boolean(initial.featured),
@@ -397,6 +402,8 @@ function PropertyFormDialog({
       city: form.city,
       zone: form.zone,
       address: form.address,
+      lat: form.lat ? parseFloat(form.lat) : undefined,
+      lng: form.lng ? parseFloat(form.lng) : undefined,
       images: JSON.stringify(images),
       features: JSON.stringify(features),
       featured: form.featured,
@@ -606,6 +613,51 @@ function PropertyFormDialog({
             <Input id="pf-addr" value={form.address}
               onChange={(e) => update('address', e.target.value)}
               placeholder="Av. 27 de Febrero #123" />
+          </div>
+
+          {/* Map location picker */}
+          <div className="space-y-2">
+            <Label htmlFor="pf-map" className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-gold" />
+              Ubicación en el mapa (opcional)
+              {form.lat && form.lng ? (
+                <span className="text-[11px] text-muted-foreground font-normal">
+                  {parseFloat(form.lat).toFixed(5)}, {parseFloat(form.lng).toFixed(5)}
+                </span>
+              ) : (
+                <span className="text-[11px] text-muted-foreground font-normal">
+                  Haz clic en el mapa para marcar el pin dorado de IMPULSA
+                </span>
+              )}
+            </Label>
+            <ImpulsaMap
+              onPick={(lat, lng) => {
+                update('lat', String(lat))
+                update('lng', String(lng))
+              }}
+              picked={
+                form.lat && form.lng
+                  ? { lat: parseFloat(form.lat), lng: parseFloat(form.lng) }
+                  : null
+              }
+              heightClass="h-[260px]"
+            />
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                value={form.lat}
+                onChange={(e) => update('lat', e.target.value)}
+                placeholder="Latitud (18.4861)"
+                className="font-mono text-xs"
+                inputMode="decimal"
+              />
+              <Input
+                value={form.lng}
+                onChange={(e) => update('lng', e.target.value)}
+                placeholder="Longitud (-69.9312)"
+                className="font-mono text-xs"
+                inputMode="decimal"
+              />
+            </div>
           </div>
 
           {/* Images */}
@@ -1337,13 +1389,276 @@ function ProfileTab({ agentId, onRefresh }: { agentId: string; onRefresh: () => 
 }
 
 /* ================================================================== */
+/*  Leads Tab                                                         */
+/* ================================================================== */
+
+const LEAD_STATUSES = ['PENDIENTE', 'CONTACTADO', 'INTERESADO', 'NO_INTERESADO'] as const
+
+const LEAD_STATUS_META: Record<string, { label: string; color: string }> = {
+  PENDIENTE: { label: 'Pendiente', color: 'bg-amber-500/15 text-amber-600 border-amber-500/30' },
+  CONTACTADO: { label: 'Contactado', color: 'bg-sky-500/15 text-sky-600 border-sky-500/30' },
+  INTERESADO: { label: 'Interesado', color: 'bg-emerald-500/15 text-emerald-600 border-emerald-500/30' },
+  NO_INTERESADO: { label: 'No interesado', color: 'bg-rose-500/15 text-rose-600 border-rose-500/30' },
+}
+
+interface LeadNote {
+  text: string
+  createdAt: number
+  by: string
+}
+
+interface Lead {
+  id: string
+  type: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string | null
+  propertyType: string
+  budget: string
+  zoneName: string
+  status: string
+  notes: LeadNote[]
+  createdAt: number
+}
+
+function LeadCard({
+  lead,
+  onUpdated,
+}: {
+  lead: Lead
+  onUpdated: () => void
+}) {
+  const [note, setNote] = React.useState('')
+  const [busy, setBusy] = React.useState(false)
+  const [expanded, setExpanded] = React.useState(false)
+  const meta = LEAD_STATUS_META[lead.status] || LEAD_STATUS_META.PENDIENTE
+
+  const changeStatus = async (status: string) => {
+    setBusy(true)
+    try {
+      const res = await fetch(`/api/leads/${lead.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      })
+      const data = await res.json()
+      if (!data.success) {
+        toast.error('No se pudo actualizar', { description: data.error })
+        return
+      }
+      toast.success(`Lead marcado como ${LEAD_STATUS_META[status].label}`)
+      onUpdated()
+    } catch {
+      toast.error('Error de conexión')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const addNote = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!note.trim()) return
+    setBusy(true)
+    try {
+      const res = await fetch(`/api/leads/${lead.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ note, noteBy: 'agente' }),
+      })
+      const data = await res.json()
+      if (!data.success) {
+        toast.error('No se pudo añadir la nota', { description: data.error })
+        return
+      }
+      setNote('')
+      onUpdated()
+    } catch {
+      toast.error('Error de conexión')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <Card className="overflow-hidden">
+      <div className="p-4">
+        <div className="flex items-start justify-between gap-3 flex-wrap">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h4 className="font-display font-bold text-base">
+                {lead.firstName} {lead.lastName}
+              </h4>
+              <Badge variant="outline" className={meta.color}>{meta.label}</Badge>
+            </div>
+            <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1"><Mail className="h-3 w-3" />{lead.email}</span>
+              {lead.phone && <span className="flex items-center gap-1"><Phone className="h-3 w-3" />{lead.phone}</span>}
+              {lead.zoneName && <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{lead.zoneName}</span>}
+            </div>
+            <div className="mt-1.5 flex flex-wrap gap-2 text-xs">
+              <span className="rounded-full bg-muted px-2.5 py-0.5">{lead.type}</span>
+              <span className="rounded-full bg-muted px-2.5 py-0.5">Busca: {lead.propertyType}</span>
+              {lead.budget && <span className="rounded-full bg-gold/10 text-gold px-2.5 py-0.5 font-medium">{lead.budget}</span>}
+              <span className="rounded-full bg-muted px-2.5 py-0.5 text-muted-foreground">
+                {new Date(lead.createdAt).toLocaleDateString('es-DO', { day: '2-digit', month: 'short', year: 'numeric' })}
+              </span>
+            </div>
+          </div>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setExpanded((v) => !v)}
+            className="h-8"
+          >
+            <MessageCircle className="h-3.5 w-3.5 mr-1.5" />
+            {expanded ? 'Ocultar' : `Notas (${lead.notes.length})`}
+          </Button>
+        </div>
+
+        {/* Status quick actions */}
+        <div className="mt-3 flex flex-wrap items-center gap-1.5">
+          <span className="text-[11px] text-muted-foreground mr-1">Estado:</span>
+          {LEAD_STATUSES.map((s) => (
+            <button
+              key={s}
+              type="button"
+              disabled={busy || lead.status === s}
+              onClick={() => changeStatus(s)}
+              className={`rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors border disabled:opacity-60 ${
+                lead.status === s
+                  ? LEAD_STATUS_META[s].color
+                  : 'border-border/60 bg-muted/40 text-muted-foreground hover:text-foreground hover:border-gold/50'
+              }`}
+            >
+              {LEAD_STATUS_META[s].label}
+            </button>
+          ))}
+        </div>
+
+        {expanded && (
+          <div className="mt-4 border-t border-border/50 pt-3 space-y-3">
+            {lead.notes.length === 0 ? (
+              <p className="text-xs text-muted-foreground">Sin notas todavía.</p>
+            ) : (
+              <div className="space-y-1.5 max-h-36 overflow-y-auto">
+                {[...lead.notes].reverse().map((n, i) => (
+                  <div key={i} className="rounded-lg border border-border/60 bg-muted/40 p-2.5">
+                    <p className="text-xs">{n.text}</p>
+                    <p className="text-[10px] text-muted-foreground mt-1">
+                      {n.by} · {new Date(n.createdAt).toLocaleDateString('es-DO')}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+            <form onSubmit={addNote} className="flex gap-2">
+              <Input
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                placeholder="Escribe una nota de seguimiento…"
+                className="h-9 text-sm"
+              />
+              <Button type="submit" size="sm" className="h-9 shrink-0" disabled={busy || !note.trim()}>
+                {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : 'Añadir'}
+              </Button>
+            </form>
+          </div>
+        )}
+      </div>
+    </Card>
+  )
+}
+
+function LeadsTab({
+  agentId,
+  refreshKey,
+  onRefresh,
+}: {
+  agentId: string
+  refreshKey: number
+  onRefresh: () => void
+}) {
+  const [leads, setLeads] = React.useState<Lead[]>([])
+  const [loading, setLoading] = React.useState(true)
+
+  const load = React.useCallback(async () => {
+    try {
+      const res = await fetch(`/api/leads?agentId=${encodeURIComponent(agentId)}`)
+      const data = await res.json()
+      if (data.success) setLeads(data.data || [])
+    } catch {
+      // silent: polling retries
+    } finally {
+      setLoading(false)
+    }
+  }, [agentId])
+
+  React.useEffect(() => {
+    load()
+    const interval = setInterval(load, 20000)
+    const onFocus = () => load()
+    window.addEventListener('focus', onFocus)
+    return () => {
+      clearInterval(interval)
+      window.removeEventListener('focus', onFocus)
+    }
+  }, [load, refreshKey])
+
+  if (loading) {
+    return (
+      <div className="space-y-3">
+        {[1, 2].map((i) => (
+          <Skeleton key={i} className="h-28 w-full rounded-xl" />
+        ))}
+      </div>
+    )
+  }
+
+  if (leads.length === 0) {
+    return (
+      <Card className="p-10 text-center border-dashed">
+        <div className="h-14 w-14 rounded-2xl bg-muted flex items-center justify-center mx-auto mb-4">
+          <MessageCircle className="h-7 w-7 text-muted-foreground" />
+        </div>
+        <h3 className="font-display font-bold text-lg">No tienes leads asignados</h3>
+        <p className="text-sm text-muted-foreground mt-1 mb-5">
+          Cuando el administrador te asigne leads de la página web, aparecerán aquí en tiempo real.
+        </p>
+        <Button variant="outline" onClick={load}>
+          <RefreshCw className="h-4 w-4 mr-2" />
+          Actualizar
+        </Button>
+      </Card>
+    )
+  }
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        <p className="text-sm text-muted-foreground">
+          <span className="font-display font-bold text-foreground">{leads.length}</span> leads asignados
+        </p>
+        <Button variant="outline" size="sm" onClick={load}>
+          <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
+          Actualizar
+        </Button>
+      </div>
+      {leads.map((l) => (
+        <LeadCard key={l.id} lead={l} onUpdated={onRefresh} />
+      ))}
+    </div>
+  )
+}
+
+/* ================================================================== */
 /*  Main View                                                         */
 /* ================================================================== */
 
 export function AgentDashboardView() {
   const { agentSession, setAgentSession, setView } = useAppStore()
   const [agent, setAgent] = React.useState<AgentProfile | null>(null)
-  const [stats, setStats] = React.useState({ total: 0, published: 0, featured: 0, value: 0 })
+  const [stats, setStats] = React.useState({ total: 0, published: 0, featured: 0, leads: 0 })
   const [loading, setLoading] = React.useState(true)
   const [refreshKey, setRefreshKey] = React.useState(0)
 
@@ -1358,18 +1673,22 @@ export function AgentDashboardView() {
     Promise.all([
       fetch(`/api/agent/${agentSession.agentId}`).then((r) => r.json()),
       fetch(`/api/agent/${agentSession.agentId}/properties`).then((r) => r.json()),
+      fetch(`/api/leads?agentId=${encodeURIComponent(agentSession.agentId)}`).then((r) => r.json()),
     ])
-      .then(([agentRes, propsRes]) => {
+      .then(([agentRes, propsRes, leadsRes]) => {
         if (!mounted) return
         if (agentRes.success) setAgent(agentRes.data as AgentProfile)
         if (propsRes.success) {
           const props = propsRes.data as AgentProperty[]
-          setStats({
+          setStats((prev) => ({
+            ...prev,
             total: props.length,
             published: props.filter((p) => p.published).length,
             featured: props.filter((p) => p.featured).length,
-            value: props.reduce((sum, p) => sum + (p.price || 0), 0),
-          })
+          }))
+        }
+        if (leadsRes.success) {
+          setStats((prev) => ({ ...prev, leads: (leadsRes.data || []).length }))
         }
       })
       .catch(() => mounted && toast.error('Error al cargar datos del agente'))
@@ -1480,9 +1799,9 @@ export function AgentDashboardView() {
           />
           <StatCard
             icon={DollarSign}
-            label="Valor portafolio"
-            value={loading ? '—' : formatPrice(stats.value)}
-            hint="Suma de precios"
+            label="Mis leads"
+            value={loading ? '—' : String(stats.leads)}
+            hint="Asignados por el equipo"
             accent="primary"
           />
         </div>
@@ -1495,6 +1814,10 @@ export function AgentDashboardView() {
                 <ListChecks className="h-4 w-4" />
                 Mis Propiedades
               </TabsTrigger>
+              <TabsTrigger value="leads" className="gap-1.5">
+                <MessageCircle className="h-4 w-4" />
+                Mis Leads
+              </TabsTrigger>
               <TabsTrigger value="profile" className="gap-1.5">
                 <UserCircle className="h-4 w-4" />
                 Mi Perfil
@@ -1502,6 +1825,13 @@ export function AgentDashboardView() {
             </TabsList>
             <TabsContent value="properties" className="mt-5">
               <MyPropertiesTab
+                agentId={agentSession.agentId}
+                refreshKey={refreshKey}
+                onRefresh={handleRefresh}
+              />
+            </TabsContent>
+            <TabsContent value="leads" className="mt-5">
+              <LeadsTab
                 agentId={agentSession.agentId}
                 refreshKey={refreshKey}
                 onRefresh={handleRefresh}

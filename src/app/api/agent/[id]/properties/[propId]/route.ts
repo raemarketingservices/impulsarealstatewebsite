@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { convexClient } from '@/lib/convex'
 
 type PropRouteParams = { params: Promise<{ id: string; propId: string }> }
 
@@ -13,7 +13,7 @@ export async function PUT(
     const body = await request.json()
 
     // Verify the property belongs to this agent
-    const existing = await db.property.findUnique({ where: { id: propId } })
+    const existing = await convexClient.query('functions:getPropertyById', { id: propId })
     if (!existing || existing.agentId !== id) {
       return NextResponse.json(
         { success: false, error: 'Propiedad no encontrada para este agente' },
@@ -44,34 +44,31 @@ export async function PUT(
       published,
     } = body as Record<string, unknown>
 
-    const data: Record<string, unknown> = {}
-    if (typeof title === 'string') data.title = title
-    if (typeof description === 'string') data.description = description
-    if (typeof type === 'string' && type) data.type = type
-    if (typeof status === 'string' && status) data.status = status
-    if (typeof operation === 'string' && operation) data.operation = operation
-    if (typeof price === 'number') data.price = price
-    if (typeof currency === 'string' && currency) data.currency = currency
-    if (typeof bedrooms === 'number') data.bedrooms = bedrooms
-    if (typeof bathrooms === 'number') data.bathrooms = bathrooms
-    if (typeof area === 'number') data.area = area
-    if (typeof parking === 'number') data.parking = parking
-    if (typeof location === 'string') data.location = location
-    if (typeof city === 'string') data.city = city
-    if (typeof zone === 'string') data.zone = zone
-    if (typeof address === 'string') data.address = address
-    if (typeof images === 'string') data.images = images
-    else if (Array.isArray(images)) data.images = JSON.stringify(images)
-    if (typeof features === 'string') data.features = features
-    else if (Array.isArray(features)) data.features = JSON.stringify(features)
-    if (typeof featured === 'boolean') data.featured = featured
-    if (typeof videoUrl === 'string') data.videoUrl = videoUrl || null
-    if (typeof published === 'boolean') data.published = published
+    const patch: Record<string, unknown> = {}
+    if (typeof title === 'string') patch.title = title
+    if (typeof description === 'string') patch.description = description
+    if (typeof type === 'string' && type) patch.type = type
+    if (typeof status === 'string' && status) patch.status = status
+    if (typeof operation === 'string' && operation) patch.operation = operation
+    if (typeof price === 'number') patch.price = price
+    if (typeof currency === 'string' && currency) patch.currency = currency
+    if (typeof bedrooms === 'number') patch.bedrooms = bedrooms
+    if (typeof bathrooms === 'number') patch.bathrooms = bathrooms
+    if (typeof area === 'number') patch.area = area
+    if (typeof parking === 'number') patch.parking = parking
+    if (typeof location === 'string') patch.location = location
+    if (typeof city === 'string') patch.city = city
+    if (typeof zone === 'string') patch.zone = zone
+    if (typeof address === 'string') patch.address = address
+    if (typeof images === 'string') patch.images = images
+    else if (Array.isArray(images)) patch.images = images
+    if (typeof features === 'string') patch.features = features
+    else if (Array.isArray(features)) patch.features = features
+    if (typeof featured === 'boolean') patch.featured = featured
+    if (typeof videoUrl === 'string') patch.videoUrl = videoUrl || null
+    if (typeof published === 'boolean') patch.published = published
 
-    const updated = await db.property.update({
-      where: { id: propId },
-      data,
-    })
+    const updated = await convexClient.mutation('functions:updateProperty', { id: propId, patch })
 
     return NextResponse.json({ success: true, data: updated })
   } catch (error) {
@@ -91,7 +88,7 @@ export async function DELETE(
   try {
     const { id, propId } = await params
 
-    const existing = await db.property.findUnique({ where: { id: propId } })
+    const existing = await convexClient.query('functions:getPropertyById', { id: propId })
     if (!existing || existing.agentId !== id) {
       return NextResponse.json(
         { success: false, error: 'Propiedad no encontrada para este agente' },
@@ -99,7 +96,7 @@ export async function DELETE(
       )
     }
 
-    await db.property.delete({ where: { id: propId } })
+    await convexClient.mutation('functions:deleteProperty', { id: propId })
 
     return NextResponse.json({ success: true })
   } catch (error) {

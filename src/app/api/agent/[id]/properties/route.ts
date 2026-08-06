@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { convexClient } from '@/lib/convex'
 
 type AgentRouteParams = { params: Promise<{ id: string }> }
 
@@ -11,7 +11,7 @@ export async function GET(
   try {
     const { id } = await params
 
-    const agent = await db.agent.findUnique({ where: { id } })
+    const agent = await convexClient.query('functions:getAgentById', { id })
     if (!agent) {
       return NextResponse.json(
         { success: false, error: 'Agente no encontrado' },
@@ -19,10 +19,7 @@ export async function GET(
       )
     }
 
-    const properties = await db.property.findMany({
-      where: { agentId: id },
-      orderBy: [{ featured: 'desc' }, { createdAt: 'desc' }],
-    })
+    const properties = await convexClient.query('functions:getAgentProperties', { id })
 
     return NextResponse.json({ success: true, data: properties })
   } catch (error) {
@@ -43,7 +40,7 @@ export async function POST(
     const { id } = await params
     const body = await request.json()
 
-    const agent = await db.agent.findUnique({ where: { id } })
+    const agent = await convexClient.query('functions:getAgentById', { id })
     if (!agent) {
       return NextResponse.json(
         { success: false, error: 'Agente no encontrado' },
@@ -87,7 +84,7 @@ export async function POST(
       )
     }
 
-    const created = await db.property.create({
+    const created = await convexClient.mutation('functions:createProperty', {
       data: {
         title: String(title),
         description: typeof description === 'string' ? String(description) : '',
@@ -107,13 +104,13 @@ export async function POST(
         images: typeof images === 'string'
           ? String(images)
           : Array.isArray(images)
-            ? JSON.stringify(images)
-            : JSON.stringify([]),
+            ? images
+            : [],
         features: typeof features === 'string'
           ? String(features)
           : Array.isArray(features)
-            ? JSON.stringify(features)
-            : JSON.stringify([]),
+            ? features
+            : [],
         featured: Boolean(featured ?? false),
         videoUrl: typeof videoUrl === 'string' && videoUrl ? String(videoUrl) : null,
         published: Boolean(published ?? true),

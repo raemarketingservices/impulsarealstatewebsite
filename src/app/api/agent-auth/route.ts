@@ -1,53 +1,52 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { convexClient } from '@/lib/convex'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { email, password } = body as { email?: string; password?: string }
+    const { email, name, identifier, password } = body as {
+      email?: string
+      name?: string
+      identifier?: string
+      password?: string
+    }
 
-    if (!email || !password) {
+    let sendEmail = email?.trim() || ''
+    let sendName = name?.trim() || ''
+    const ident = (identifier || '').trim()
+    if (ident) {
+      if (ident.includes('@')) sendEmail = sendEmail || ident
+      else sendName = sendName || ident
+    }
+
+    if ((!sendEmail && !sendName) || !password) {
       return NextResponse.json(
-        { success: false, error: 'Email y contraseña son requeridos' },
+        { success: false, error: 'Email o nombre y contraseña son requeridos' },
         { status: 400 }
       )
     }
 
-    const agent = await db.agent.findUnique({
-      where: { email: email.toLowerCase().trim() },
-    })
+    const queryArgs: { email?: string; name?: string; password: string } = { password }
+    if (sendEmail) queryArgs.email = sendEmail
+    if (sendName) queryArgs.name = sendName
 
-    if (!agent) {
+    const result = await convexClient.query('functions:authAgent', queryArgs)
+
+    if (!result || result.error === 'invalid') {
       return NextResponse.json(
         { success: false, error: 'Credenciales inválidas' },
         { status: 401 }
       )
     }
 
-    if (!agent.active) {
+    if (result.error === 'inactive') {
       return NextResponse.json(
         { success: false, error: 'Tu cuenta está desactivada. Contacta al administrador.' },
         { status: 403 }
       )
     }
 
-    if (agent.password !== password) {
-      return NextResponse.json(
-        { success: false, error: 'Credenciales inválidas' },
-        { status: 401 }
-      )
-    }
-
-    return NextResponse.json({
-      success: true,
-      data: {
-        id: agent.id,
-        name: agent.name,
-        email: agent.email,
-        title: agent.title,
-        photoUrl: agent.photoUrl,
-      },
-    })
+    return NextResponse.json({ success: true, data: result })
   } catch (error) {
     console.error('Error in agent-auth:', error)
     return NextResponse.json(

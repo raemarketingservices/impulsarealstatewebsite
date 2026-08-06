@@ -56,6 +56,10 @@ server.log
 # Database
 db/*.db
 db/*.db-journal
+scripts/dump/
+scripts/test-convex.mjs
+dev.out.log
+dev.err.log
 
 # Uploads (user-generated content)
 /public/uploads/

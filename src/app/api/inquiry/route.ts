@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { convexClient } from '@/lib/convex'
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,14 +13,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const inquiry = await db.inquiry.create({
-      data: {
-        name,
-        email,
-        phone: phone || null,
-        message,
-        propertyId: propertyId || null,
-      },
+    const inquiry = await convexClient.mutation('functions:createInquiry', {
+      name,
+      email,
+      phone: phone || undefined,
+      message,
+      propertyId: propertyId || undefined,
     })
 
     return NextResponse.json({ success: true, data: inquiry })

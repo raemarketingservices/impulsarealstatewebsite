@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { convexClient } from '@/lib/convex'
 import ZAI from 'z-ai-web-dev-sdk'
 
 // In-memory conversation store (per session)
@@ -12,25 +12,14 @@ const CACHE_TTL = 60_000
 async function getContext() {
   if (cache && Date.now() - cache.ts < CACHE_TTL) return cache
 
-  const [settings, properties] = await Promise.all([
-    db.setting.findMany(),
-    db.property.findMany({
-      where: { published: true },
-      select: {
-        title: true, type: true, operation: true, price: true, currency: true,
-        bedrooms: true, bathrooms: true, area: true, parking: true,
-        location: true, city: true, zone: true, features: true, featured: true,
-      },
-      orderBy: [{ featured: 'desc' }, { createdAt: 'desc' }],
-      take: 50,
-    }),
-  ])
-
+  const result = await convexClient.query('functions:listSettings')
   const map: Record<string, string> = {}
-  for (const s of settings) map[s.key] = s.value
+  for (const s of result.data) map[s.key] = s.value
+
+  const properties = await convexClient.query('functions:listProperties', { limit: '50' })
 
   // Build property catalog summary for the LLM
-  const catalogLines = properties.map((p) => {
+  const catalogLines = properties.map((p: any) => {
     let features: string[] = []
     try { features = JSON.parse(p.features) } catch {}
     return `• ${p.title} | ${p.type} | ${p.operation} | $${p.price.toLocaleString()} ${p.currency} | ${p.bedrooms} hab, ${p.bathrooms} baños, ${p.area}m² | ${p.location}, ${p.city} (Zona ${p.zone})${features.length ? ' | ' + features.slice(0, 4).join(', ') : ''}${p.featured ? ' | DESTACADA' : ''}`
